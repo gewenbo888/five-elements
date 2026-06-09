@@ -227,7 +227,90 @@ footer a{color:var(--gold)}
 }
 .fade{animation:fade .5s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ════════ MOTION & MICRO-INTERACTION SYSTEM ════════ */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:8px}
+.cta:active{transform:translateY(0) scale(.97)}
+
+/* — hero entrance choreography — */
+#hero > *{opacity:0}
+body.loaded #hero > *{animation:heroRise .9s cubic-bezier(.2,.75,.3,1) both}
+body.loaded #hero > *:nth-child(1){animation-delay:.05s}
+body.loaded #hero > *:nth-child(2){animation-delay:.13s}
+body.loaded #hero > *:nth-child(3){animation-delay:.20s}
+body.loaded #hero > *:nth-child(4){animation-delay:.16s}
+body.loaded #hero > *:nth-child(5){animation-delay:.34s}
+body.loaded #hero > *:nth-child(6){animation-delay:.46s}
+body.loaded #hero > *:nth-child(7){animation-delay:.58s}
+@keyframes heroRise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+#heroPenta svg{animation:breathe 7s ease-in-out infinite}
+#heroPenta svg g[transform]{transform-box:fill-box;transform-origin:center}
+body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes nodePop{from{opacity:0}to{opacity:1}}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.018)}}
+.scroll-hint{animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(5px);opacity:1}}
+
+/* — element card hover lift — */
+.el-card{transition:transform .35s cubic-bezier(.2,.7,.3,1),border-color .35s,background .35s,box-shadow .35s}
+.el-card:hover{box-shadow:0 18px 50px -20px color-mix(in srgb,var(--ec) 60%,transparent)}
+.el-char{transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
+.el-card:hover .el-char{transform:scale(1.08) translateY(-2px)}
+
+/* — quiz question transitions — */
+.q-stage{--qx:28px}
+.q-anim .q-text{animation:qTextIn .5s cubic-bezier(.2,.75,.3,1) both}
+@keyframes qTextIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.q-out{animation:qOut .22s ease forwards}
+@keyframes qOut{to{opacity:0;transform:translateX(-26px)}}
+.q-num{transition:opacity .3s}
+
+/* — options: numbered, tactile, with select sweep + check — */
+.opt{position:relative;overflow:hidden;gap:14px;
+  transition:transform .2s cubic-bezier(.2,.7,.3,1),border-color .2s,background .2s,box-shadow .2s}
+.q-anim .opt{animation:optIn .45s cubic-bezier(.2,.75,.3,1) both;animation-delay:calc(.12s + var(--i,0)*.06s)}
+@keyframes optIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.opt:hover{transform:translateY(-2px);box-shadow:0 12px 30px -16px color-mix(in srgb,var(--oc) 70%,transparent)}
+.opt:active{transform:translateY(0) scale(.99)}
+.opt .num{flex:none;width:28px;height:28px;border-radius:9px;border:1px solid var(--border-soft);
+  display:grid;place-items:center;font-family:var(--sans);font-size:12.5px;font-weight:700;
+  color:var(--ink-faint);transition:.2s}
+.opt:hover .num{border-color:var(--oc);color:var(--oc)}
+.opt .otext{flex:1}
+.opt .check{flex:none;margin-left:auto;color:var(--oc);font-weight:800;opacity:0;transform:scale(.4);transition:.25s cubic-bezier(.3,1.5,.5,1)}
+.opt.sel{border-color:var(--oc);background:color-mix(in srgb, var(--oc) 13%, transparent)}
+.opt.sel .num{background:var(--oc);color:#0a0908;border-color:var(--oc)}
+.opt.sel .check{opacity:1;transform:scale(1)}
+.opt.sel::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--oc) 26%,transparent),transparent);
+  transform:translateX(-110%);animation:sweep .62s ease}
+@keyframes sweep{to{transform:translateX(110%)}}
+.opts.locked .opt:not(.sel){opacity:.45;pointer-events:none}
+
+/* — results: cinematic staged reveal — */
+.reveal{opacity:0;transform:translateY(24px)}
+#resultInner:not(.play) .reveal{opacity:1;transform:none}
+#resultInner.play .reveal{animation:reveal .75s cubic-bezier(.2,.75,.3,1) forwards;animation-delay:var(--d,0ms)}
+@keyframes reveal{to{opacity:1;transform:none}}
+.res-hero::before{content:"";position:absolute;left:50%;top:46px;width:min(340px,70vw);height:min(340px,70vw);
+  transform:translateX(-50%);border-radius:50%;pointer-events:none;z-index:-1;opacity:0;
+  background:radial-gradient(circle,color-mix(in srgb,var(--pc) 34%,transparent),transparent 68%);filter:blur(36px)}
+#resultInner:not(.play) .res-hero::before{opacity:.5}
+#resultInner.play .res-hero::before{animation:bloom 1.5s ease forwards .15s}
+@keyframes bloom{to{opacity:.55}}
+#resultInner.play .res-char{animation:charBloom 1.05s cubic-bezier(.2,.7,.3,1) both .1s}
+@keyframes charBloom{0%{opacity:0;transform:scale(.62);filter:blur(10px)}55%{filter:blur(0)}100%{opacity:1;transform:scale(1);filter:blur(0)}}
+.radar-canvas{filter:drop-shadow(0 8px 30px color-mix(in srgb,var(--pc) 26%,transparent))}
+.comp-pct{font-variant-numeric:tabular-nums}
+.cyc{transition:transform .3s cubic-bezier(.2,.7,.3,1),border-color .3s,background .3s}
+.cyc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--gold) 40%,transparent);background:rgba(255,253,247,.04)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  #hero > *,.reveal{opacity:1!important;transform:none!important}
+  .res-hero::before{opacity:.5!important}
+  .opt .check{opacity:1!important;transform:none!important}
+}
 </style>
 <meta property="og:image" content="https://five-elements.psyverse.fun/og.png" />
 <meta property="og:image:width" content="1200" />
@@ -320,11 +403,11 @@ footer a{color:var(--gold)}
   </div>
   <div class="q-stage">
     <div class="q-num" id="qNum"></div>
-    <div class="q-text" id="qText"></div>
-    <div class="opts" id="qOpts"></div>
+    <div class="q-text" id="qText" aria-live="polite"></div>
+    <div class="opts" id="qOpts" role="radiogroup"></div>
     <div class="q-nav">
       <button class="q-back" id="qBack" onclick="prevQ()">← <span class="en-t">Back</span><span class="zh-t">上一题</span></button>
-      <span class="q-skip-note"><span class="en-t">Pick what feels most like you</span><span class="zh-t">选择最像你的那一项</span></span>
+      <span class="q-skip-note"><span class="en-t">Pick what feels most like you · keys 1–5 · ← back</span><span class="zh-t">选择最像你的那一项 · 数字键 1–5 · ← 返回</span></span>
     </div>
   </div>
 </section>
@@ -828,6 +911,7 @@ function startQuiz(){
   window.scrollTo(0,0);
   renderQ();
 }
+var qDir=1, qLocked=false;
 function renderQ(){
   var realIdx=qOrder[qIndex];
   var q=Q[realIdx];
@@ -840,25 +924,49 @@ function renderQ(){
   var optOrder=shuffle(["m","w","a","f","e"], realIdx*13+3);
   var elc={m:"metal",w:"wood",a:"water",f:"fire",e:"earth"};
   var h="";
-  optOrder.forEach(function(code){
+  optOrder.forEach(function(code,i){
     var txt=q.o[code][LANG==="zh"?1:0];
     var sel = answers[realIdx]===code ? " sel":"";
-    h+='<button class="opt'+sel+'" style="--oc:'+EL[elc[code]].color+'" onclick="pick(\''+code+'\')">'
-      +'<span class="dot"></span><span>'+txt+'</span></button>';
+    h+='<button class="opt'+sel+'" role="radio" aria-checked="'+(sel?"true":"false")+'" data-code="'+code+'" style="--oc:'+EL[elc[code]].color+';--i:'+i+'" onclick="pick(\''+code+'\')">'
+      +'<span class="num">'+(i+1)+'</span><span class="otext">'+txt+'</span><span class="check" aria-hidden="true">✓</span></button>';
   });
-  document.getElementById("qOpts").innerHTML=h;
-  var stage=document.querySelector(".q-stage"); stage.classList.remove("fade"); void stage.offsetWidth; stage.classList.add("fade");
+  var opts=document.getElementById("qOpts");
+  opts.className="opts"; opts.innerHTML=h;
+  qLocked=false;
+  var stage=document.querySelector(".q-stage");
+  stage.style.setProperty("--qx", qDir>=0?"28px":"-28px");
+  stage.classList.remove("q-anim"); void stage.offsetWidth; stage.classList.add("q-anim");
 }
 function pick(code){
+  if(qLocked) return; qLocked=true;
   var realIdx=qOrder[qIndex];
   answers[realIdx]=code;
-  // brief highlight then advance
+  var opts=document.getElementById("qOpts");
+  opts.classList.add("locked");
+  opts.querySelectorAll(".opt").forEach(function(b){
+    var on=b.getAttribute("data-code")===code;
+    b.classList.toggle("sel", on); b.setAttribute("aria-checked", on?"true":"false");
+  });
+  var last = qIndex >= Q.length-1;
   setTimeout(function(){
-    if(qIndex < Q.length-1){ qIndex++; renderQ(); window.scrollTo(0,0);}
-    else finish();
-  },180);
+    if(last){ finish(); return; }
+    var stage=document.querySelector(".q-stage");
+    stage.classList.add("q-out");
+    setTimeout(function(){
+      stage.classList.remove("q-out");
+      qDir=1; qIndex++; renderQ(); window.scrollTo(0,0);
+    }, 215);
+  }, 300);
 }
-function prevQ(){ if(qIndex>0){qIndex--; renderQ(); window.scrollTo(0,0);} }
+function prevQ(){ if(qIndex>0){ qDir=-1; qIndex--; renderQ(); window.scrollTo(0,0); } }
+/* keyboard: 1–5 select · ←/Backspace go back */
+document.addEventListener("keydown", function(ev){
+  if(!document.getElementById("quiz").classList.contains("active")) return;
+  if(ev.key>="1" && ev.key<="5"){
+    var btns=document.querySelectorAll("#qOpts .opt"); var b=btns[(+ev.key)-1];
+    if(b){ ev.preventDefault(); b.click(); }
+  } else if(ev.key==="Backspace" || ev.key==="ArrowLeft"){ ev.preventDefault(); prevQ(); }
+});
 
 /* ════════ SCORING ════════ */
 function score(){
@@ -926,7 +1034,7 @@ function renderResult(r){
       +'<span class="cc">'+e.char+'</span>'
       +'<span style="width:64px;color:var(--ink-dim)">'+L(e.arche_en,e.arche_zh)+'</span>'
       +'<span class="comp-bar"><i data-w="'+r.pct[k]+'"></i></span>'
-      +'<span class="comp-pct">'+r.pct[k]+'%</span></div>';
+      +'<span class="comp-pct" data-v="'+r.pct[k]+'">0%</span></div>';
   });
 
   var growthLis = g[LANG].map(function(t){return '<li>'+t+'</li>';}).join("");
@@ -938,15 +1046,15 @@ function renderResult(r){
   }
 
   var html =
-   '<div class="res-eyebrow">'+eyebrow+'</div>'
-  +'<div class="res-hero" style="--pc:'+P.color+'">'
+   '<div class="res-eyebrow reveal">'+eyebrow+'</div>'
+  +'<div class="res-hero reveal" style="--pc:'+P.color+'">'
     +'<div class="res-char">'+P.char+'</div>'
     +'<div class="res-arche">'+L("The ","")+'<em>'+L(P.arche_en.replace("The ",""),P.arche_zh)+'</em></div>'
     +'<div class="res-tag">'+P.pin+' · '+L(P.tag_en,P.tag_zh)+'</div>'
     +'<p class="res-blurb">'+L(P.blurb_en,P.blurb_zh)+'</p>'
   +'</div>'
 
-  +'<div class="res-grid" style="--pc:'+P.color+'">'
+  +'<div class="res-grid reveal" style="--pc:'+P.color+'">'
     +'<div class="radar-box">'
       +'<canvas class="radar-canvas" id="radar" width="600" height="600"></canvas>'
       +'<div class="comp-list">'+compRows+'</div>'
@@ -961,7 +1069,7 @@ function renderResult(r){
   +'</div>'
 
   // secondary blend
-  +'<div class="panel" style="--pc:'+P.color+'">'
+  +'<div class="panel reveal" style="--pc:'+P.color+'">'
     +'<h3>'+L(P.arche_en+" + "+EL[sec].arche_en, P.arche_zh+" + "+EL[sec].arche_zh)+' <span style="color:'+EL[sec].color+'">'+EL[sec].char+'</span></h3>'
     +'<div class="sub">'+L("Your secondary element","你的次要之行")+' · '+EL[sec].pin+'</div>'
     +'<p class="blend-text">'+blendText(p,sec)+'</p>'
@@ -969,7 +1077,7 @@ function renderResult(r){
   +'</div>'
 
   // cycle
-  +'<div class="panel">'
+  +'<div class="panel reveal">'
     +'<h3>'+L("Your cycles","你的相生相克")+'</h3>'
     +'<div class="sub">'+L("Generation feeds you · Control disciplines you","相生养你 · 相克炼你")+'</div>'
     +'<div class="cycle-cards">'
@@ -981,31 +1089,69 @@ function renderResult(r){
   +'</div>'
 
   // growth
-  +'<div class="panel" style="--pc:'+P.color+'">'
+  +'<div class="panel reveal" style="--pc:'+P.color+'">'
     +'<h3>'+L("Your path of growth","你的成长之道")+'</h3>'
     +'<div class="sub">'+L("Balance comes from the cycle, not from forcing","平衡来自循环，而非强求")+'</div>'
     +'<ul class="growth-list">'+growthLis+'</ul>'
   +'</div>'
 
-  +'<div class="res-actions">'
+  +'<div class="res-actions reveal">'
     +'<button class="cta" onclick="shareResult(\''+p+'\','+r.pct[p]+')">'+L("Share my result","分享我的结果")+'</button>'
     +'<button class="cta ghost" onclick="retake()">'+L("Retake","重新测试")+'</button>'
     +'<button class="cta ghost" onclick="location.href=\'https://psyverse.fun/\'">'+L("Explore Psyverse","探索灵境")+'</button>'
   +'</div>'
-  +'<p class="note">'+L("This instrument is for self-reflection, not divination or clinical assessment. Your composition is a snapshot of how you tend to meet the world today — it can shift as you do.","本测评用于自我观照，而非占卜或临床诊断。你的配比是你「当下」如何面对世界的一帧快照——它会随你而变。")+'</p>';
+  +'<p class="note reveal">'+L("This instrument is for self-reflection, not divination or clinical assessment. Your composition is a snapshot of how you tend to meet the world today — it can shift as you do.","本测评用于自我观照，而非占卜或临床诊断。你的配比是你「当下」如何面对世界的一帧快照——它会随你而变。")+'</p>';
 
-  document.getElementById("resultInner").innerHTML=html;
-  // animate bars
-  requestAnimationFrame(function(){
-    document.querySelectorAll(".comp-bar i").forEach(function(b){ b.style.width=b.getAttribute("data-w")+"%"; });
+  var inner=document.getElementById("resultInner");
+  inner.innerHTML=html;
+  // stagger reveal of the major blocks
+  inner.querySelectorAll(".reveal").forEach(function(el,i){ el.style.setProperty("--d",(i*85)+"ms"); });
+  var animate = renderResult._animate !== false;
+  if(animate){ inner.classList.remove("play"); void inner.offsetWidth; inner.classList.add("play"); }
+  else { inner.classList.remove("play"); }
+  // composition bars + count-up (timed to land with the grid reveal)
+  var barDelay = animate ? 340 : 0;
+  setTimeout(function(){
+    inner.querySelectorAll(".comp-bar i").forEach(function(b){ b.style.width=b.getAttribute("data-w")+"%"; });
+    countUp(animate ? 750 : 0);
+  }, barDelay);
+  drawRadar(r, animate);
+  renderResult._animate = true; // reset default for next call
+}
+function countUp(dur){
+  document.querySelectorAll("#resultInner .comp-pct").forEach(function(el){
+    var target=parseInt(el.getAttribute("data-v"),10)||0;
+    if(dur<=0){ el.textContent=target+"%"; return; }
+    var t0=null;
+    function step(ts){
+      if(!document.body.contains(el)) return;
+      if(t0===null) t0=ts;
+      var t=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-t,2);
+      el.textContent=Math.round(e*target)+"%";
+      if(t<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
   });
-  drawRadar(r);
 }
 
-/* ════════ RADAR ════════ */
-function drawRadar(r){
-  var cv=document.getElementById("radar"); if(!cv) return;
-  var ctx=cv.getContext("2d"); if(!ctx) return;
+/* ════════ RADAR (self-drawing, animated) ════════ */
+function drawRadar(r, animate){
+  var cv0=document.getElementById("radar"); if(!cv0) return;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var doAnim = animate && !reduce;
+  var dur=1000, start=null;
+  function frame(ts){
+    var cv=document.getElementById("radar"); if(!cv) return;      // element may be gone (re-render)
+    var ctx=cv.getContext("2d"); if(!ctx) return;
+    if(start===null) start=ts;
+    var t = doAnim ? Math.min(1,(ts-start)/dur) : 1;
+    var e = 1-Math.pow(1-t,3);                                    // easeOutCubic
+    paintRadar(ctx, cv, r, e);
+    if(t<1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+function paintRadar(ctx, cv, r, prog){
   var W=cv.width, H=cv.height, cx=W/2, cy=H/2, R=W*0.36;
   ctx.clearRect(0,0,W,H);
   var keys=["metal","wood","fire","water","earth"];
@@ -1030,12 +1176,12 @@ function drawRadar(r){
     ctx.textAlign="center"; ctx.textBaseline="middle";
     ctx.fillText(EL[keys[i]].char, lx, ly);
   }
-  // data polygon
+  // data polygon — grows from center by prog
   var maxc=Math.max(1, Math.max.apply(null, keys.map(function(k){return r.counts[k];})));
   ctx.beginPath();
   for(var i=0;i<5;i++){
-    var v=r.counts[keys[i]]/maxc; // normalize to strongest
-    var rr=R*Math.max(0.06,v);
+    var v=r.counts[keys[i]]/maxc;
+    var rr=R*Math.max(0.06,v)*prog;
     var x=cx+rr*Math.cos(angs[i]), y=cy+rr*Math.sin(angs[i]);
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
@@ -1046,12 +1192,15 @@ function drawRadar(r){
   grad.addColorStop(1, hexA(pc,0.12));
   ctx.fillStyle=grad; ctx.fill();
   ctx.strokeStyle=pc; ctx.lineWidth=2.5; ctx.stroke();
-  // vertices
+  // vertices — fade/pop in near the end
+  var va=Math.max(0,Math.min(1,(prog-0.55)/0.45));
   for(var i=0;i<5;i++){
-    var v=r.counts[keys[i]]/maxc, rr=R*Math.max(0.06,v);
+    var v=r.counts[keys[i]]/maxc, rr=R*Math.max(0.06,v)*prog;
     var x=cx+rr*Math.cos(angs[i]), y=cy+rr*Math.sin(angs[i]);
-    ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.globalAlpha=va;
+    ctx.beginPath(); ctx.arc(x,y,5+2*va,0,Math.PI*2);
     ctx.fillStyle=EL[keys[i]].color; ctx.fill();
+    ctx.globalAlpha=1;
   }
 }
 function hexA(hex,a){
@@ -1087,15 +1236,16 @@ function setLang(l){
   document.documentElement.lang = l==="zh"?"zh-CN":"en";
   document.getElementById("btn-en").classList.toggle("on", l==="en");
   document.getElementById("btn-zh").classList.toggle("on", l==="zh");
-  // re-render dynamic views in new language
+  // re-render dynamic views in new language (no re-animation on toggle)
   if(document.getElementById("quiz").classList.contains("active")) renderQ();
-  if(document.getElementById("result").classList.contains("active")){ renderResult(score()); }
+  if(document.getElementById("result").classList.contains("active")){ renderResult._animate=false; renderResult(score()); }
 }
 
 /* ════════ INIT ════════ */
 buildHeroPenta();
 buildElGrid();
 buildCycleSvg();
+document.body.classList.add("loaded");   // trigger hero entrance choreography
 </script>
 </body>
 </html>
