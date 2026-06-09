@@ -912,6 +912,12 @@ function renderResult(r){
   var g=growthFor(p);
   var L=function(en,zh){return LANG==="zh"?zh:en;};
   var clsmap={metal:"metal",wood:"wood",water:"water",fire:"fire",earth:"earth"};
+  // balance detection: top two within one pick → a close blend, not a single dominant type
+  var gap=r.counts[p]-r.counts[sec];
+  var balanced = gap<=1;
+  var eyebrow = balanced
+    ? L("Your leading element · a close blend with "+L(EL[sec].arche_en,EL[sec].arche_zh), "你的主导之行 · 与"+EL[sec].arche_zh+"势均力敌")
+    : L("Your dominant element","你的主导之行");
 
   var compRows="";
   r.ranked.forEach(function(k){
@@ -932,7 +938,7 @@ function renderResult(r){
   }
 
   var html =
-   '<div class="res-eyebrow">'+L("Your dominant element","你的主导之行")+'</div>'
+   '<div class="res-eyebrow">'+eyebrow+'</div>'
   +'<div class="res-hero" style="--pc:'+P.color+'">'
     +'<div class="res-char">'+P.char+'</div>'
     +'<div class="res-arche">'+L("The ","")+'<em>'+L(P.arche_en.replace("The ",""),P.arche_zh)+'</em></div>'
@@ -959,6 +965,7 @@ function renderResult(r){
     +'<h3>'+L(P.arche_en+" + "+EL[sec].arche_en, P.arche_zh+" + "+EL[sec].arche_zh)+' <span style="color:'+EL[sec].color+'">'+EL[sec].char+'</span></h3>'
     +'<div class="sub">'+L("Your secondary element","你的次要之行")+' · '+EL[sec].pin+'</div>'
     +'<p class="blend-text">'+blendText(p,sec)+'</p>'
+    +(balanced?'<p class="blend-text" style="margin-top:14px;color:var(--ink-dim);font-size:0.96rem">'+L("Your top two elements are nearly even, so read this as a true blend — you move between "+L(P.arche_en,P.arche_zh)+" and "+L(EL[sec].arche_en,EL[sec].arche_zh)+" depending on the moment, rather than living squarely in one.","你最强的两行几乎持平，因此请把它当作一种真正的「混合型」——你会随情境在"+P.arche_zh+"与"+EL[sec].arche_zh+"之间游走，而非牢牢锚定于某一行。")+'</p>':'')
   +'</div>'
 
   // cycle
