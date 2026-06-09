@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Five Elements · 五行人格 | Psyverse</title>
+
+<!-- SEO · GEO -->
+<meta name="description" content="A bilingual Wu Xing personality assessment. Answer 28 scenarios and discover your elemental composition across Metal (Blade), Wood (Awakening), Water (Flow), Fire (Wind) and Earth (Soul) — with the generation & control cycles that shape your growth." />
+<meta name="keywords" content="five elements personality, wu xing, 五行人格, personality test, Chinese metaphysics, Metal Wood Water Fire Earth, archetype, psyverse" />
+<meta name="author" content="Gewenbo" />
+<link rel="canonical" href="https://five-elements.psyverse.fun/" />
+<link rel="alternate" hreflang="en" href="https://five-elements.psyverse.fun/" />
+<link rel="alternate" hreflang="zh-CN" href="https://five-elements.psyverse.fun/" />
+<link rel="alternate" hreflang="x-default" href="https://five-elements.psyverse.fun/" />
+<meta property="og:title" content="The Five Elements · 五行人格" />
+<meta property="og:description" content="Answer 28 scenarios, discover your elemental composition, and read the generation & control cycles that shape your growth." />
+<meta property="og:url" content="https://five-elements.psyverse.fun/" />
+<meta property="og:site_name" content="Psyverse" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="zh_CN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Five Elements · 五行人格" />
+<meta name="twitter:description" content="Which of the five elemental archetypes are you most inclined toward? Take the assessment." />
+<meta name="robots" content="index, follow" />
+<meta name="theme-color" content="#0a0908" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "The Five Elements · 五行人格",
+  "description": "A bilingual Wu Xing personality assessment classifying users across Metal, Wood, Water, Fire and Earth archetypes.",
+  "url": "https://five-elements.psyverse.fun/",
+  "inLanguage": ["en", "zh-CN"],
+  "author": { "@type": "Person", "name": "Gewenbo", "url": "https://psyverse.fun/" },
+  "publisher": { "@type": "Organization", "name": "Psyverse", "url": "https://psyverse.fun/" }
+}
+</script>
+<!-- /SEO · GEO -->
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a0908'/><text x='50%25' y='53%25' font-size='17' text-anchor='middle' dominant-baseline='central' fill='%23c9a24b' font-family='serif'>五</text></svg>" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Manrope:wght@300..800&family=Noto+Serif+SC:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --bg:#0a0908; --bg2:#100e0c;
+  --ink:#ece4d3; --ink-dim:rgba(236,228,211,0.66); --ink-faint:rgba(236,228,211,0.42);
+  --gold:#c9a24b; --gold-deep:#a07e34;
+  --metal:#c9c4b8; --wood:#8bb57b; --water:#6fa5c7; --fire:#d66b4a; --earth:#caa567;
+  --border:rgba(201,162,75,0.16); --border-soft:rgba(236,228,211,0.10);
+  --card:rgba(255,253,247,0.025);
+  --serif:'Fraunces',Georgia,serif; --sc:'Noto Serif SC',serif; --sans:'Manrope',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--sans);
+  line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  background-image:radial-gradient(900px 500px at 50% -10%, rgba(201,162,75,0.07), transparent 70%),
+                   radial-gradient(700px 600px at 90% 110%, rgba(111,165,199,0.05), transparent 70%);
+  background-attachment:fixed;
+}
+/* language visibility */
+body:not(.zh) .zh-t{display:none}
+body.zh .en-t{display:none}
+.sc{font-family:var(--sc)}
+
+::selection{background:rgba(201,162,75,0.28);color:#fff}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.12;letter-spacing:-0.01em}
+.zh h1,.zh h2,.zh h3,.zh-t{font-family:var(--sc)}
+a{color:inherit;text-decoration:none}
+
+/* ── top control bar (under psyverse bar) ── */
+.lang-toggle{
+  position:fixed; top:54px; right:16px; z-index:40; display:flex; gap:2px;
+  background:rgba(10,9,8,0.7); backdrop-filter:blur(10px);
+  border:1px solid var(--border); border-radius:999px; padding:3px;
+}
+.lang-toggle button{
+  font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0.04em;
+  color:var(--ink-dim); background:none; border:none; cursor:pointer;
+  padding:5px 12px; border-radius:999px; transition:.25s;
+}
+.lang-toggle button.on{background:var(--gold);color:#0a0908}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+section{position:relative}
+
+/* ── hero ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;position:relative}
+.eyebrow{font-size:12.5px;letter-spacing:0.42em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:26px}
+.zh .eyebrow{letter-spacing:0.32em}
+#hero h1{font-size:clamp(3rem,9vw,6.4rem);font-weight:300;letter-spacing:-0.02em}
+#hero h1 em{font-style:italic;color:var(--gold)}
+.hero-cn{font-family:var(--sc);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:300;color:var(--ink-dim);margin-top:10px;letter-spacing:0.2em}
+.hero-sub{max-width:620px;margin:28px auto 0;color:var(--ink-dim);font-size:clamp(1rem,2.2vw,1.18rem)}
+.hero-penta{margin:38px auto 6px;width:min(330px,72vw)}
+.cta{
+  display:inline-flex;align-items:center;gap:10px;margin-top:30px;cursor:pointer;
+  font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:0.02em;
+  color:#0a0908;background:var(--gold);border:none;padding:15px 34px;border-radius:999px;
+  transition:.3s;box-shadow:0 8px 30px rgba(201,162,75,0.25);
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 12px 38px rgba(201,162,75,0.4)}
+.cta.ghost{background:none;color:var(--ink);border:1px solid var(--border);box-shadow:none}
+.cta.ghost:hover{border-color:var(--gold);color:var(--gold)}
+.scroll-hint{margin-top:44px;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* ── section heading ── */
+.s-head{text-align:center;margin:0 auto 54px;max-width:680px}
+.s-num{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px}
+.s-head h2{font-size:clamp(2rem,5vw,3.1rem);font-weight:300}
+.s-head p{color:var(--ink-dim);margin-top:14px;font-size:1.04rem}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
+.pad{padding:96px 0}
+
+/* ── element cards ── */
+.el-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
+.el-card{
+  position:relative;border:1px solid var(--border-soft);border-radius:18px;padding:26px 22px 24px;
+  background:var(--card);overflow:hidden;transition:.35s;cursor:default;
+}
+.el-card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--ec)}
+.el-card:hover{border-color:var(--ec);transform:translateY(-4px);background:rgba(255,253,247,0.045)}
+.el-char{font-family:var(--sc);font-size:46px;font-weight:900;line-height:1;color:var(--ec)}
+.el-arche{font-family:var(--serif);font-size:1.5rem;margin-top:12px}
+.el-tag{font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--ink-faint);margin-top:4px}
+.el-desc{font-size:0.92rem;color:var(--ink-dim);margin-top:14px}
+.el-fig{font-family:var(--sc);font-size:0.86rem;color:var(--ec);margin-top:14px;opacity:0.9}
+.m{--ec:var(--metal)} .w{--ec:var(--wood)} .a{--ec:var(--water)} .f{--ec:var(--fire)} .e{--ec:var(--earth)}
+
+/* ── cycle diagram ── */
+.cycle-wrap{display:grid;grid-template-columns:1.1fr 0.9fr;gap:50px;align-items:center}
+.cycle-svg{width:100%;max-width:460px;margin:0 auto}
+.cycle-svg .node circle{cursor:pointer;transition:.3s}
+.cycle-legend{display:flex;flex-direction:column;gap:18px}
+.leg{display:flex;gap:14px;align-items:flex-start}
+.leg-dot{flex:none;width:30px;height:4px;border-radius:2px;margin-top:11px}
+.leg h4{font-family:var(--serif);font-size:1.15rem;font-weight:500;margin-bottom:3px}
+.leg p{font-size:0.92rem;color:var(--ink-dim)}
+
+/* ── quiz ── */
+#quiz{display:none;min-height:100vh;padding:90px 0 80px}
+#quiz.active{display:block}
+.q-progress-wrap{position:fixed;top:48px;left:0;right:0;z-index:30;background:rgba(10,9,8,0.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--border-soft)}
+.q-progress-inner{max-width:760px;margin:0 auto;padding:13px 24px;display:flex;align-items:center;gap:16px}
+.q-bar{flex:1;height:5px;border-radius:3px;background:rgba(236,228,211,0.10);overflow:hidden}
+.q-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold-deep),var(--gold));border-radius:3px;transition:width .4s cubic-bezier(.2,.7,.3,1)}
+.q-count{font-size:12.5px;font-weight:700;letter-spacing:0.06em;color:var(--gold);white-space:nowrap}
+.q-stage{max-width:760px;margin:0 auto;padding:0 24px}
+.q-num{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--gold);text-align:center;margin-bottom:14px}
+.q-text{font-family:var(--serif);font-size:clamp(1.4rem,3.6vw,2.1rem);font-weight:300;text-align:center;line-height:1.3;margin-bottom:38px;min-height:1.3em}
+.zh .q-text{font-family:var(--sc);font-weight:400}
+.opts{display:flex;flex-direction:column;gap:13px}
+.opt{
+  text-align:left;font-family:var(--sans);font-size:1.02rem;color:var(--ink);
+  background:var(--card);border:1px solid var(--border-soft);border-radius:14px;
+  padding:17px 20px;cursor:pointer;transition:.22s;display:flex;align-items:center;gap:15px;
+}
+.zh .opt{font-family:var(--sc)}
+.opt:hover{border-color:var(--gold);background:rgba(255,253,247,0.05);transform:translateX(3px)}
+.opt .dot{flex:none;width:11px;height:11px;border-radius:50%;background:var(--oc);box-shadow:0 0 12px var(--oc);opacity:0.85}
+.opt.sel{border-color:var(--oc);background:color-mix(in srgb, var(--oc) 12%, transparent)}
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:34px}
+.q-back{background:none;border:none;color:var(--ink-faint);font-family:var(--sans);font-size:14px;cursor:pointer;letter-spacing:0.03em}
+.q-back:hover{color:var(--ink)}
+.q-back:disabled{opacity:0.25;cursor:default}
+.q-skip-note{font-size:12px;color:var(--ink-faint)}
+
+/* ── results ── */
+#result{display:none;padding:90px 0 90px}
+#result.active{display:block}
+.res-eyebrow{text-align:center;font-size:12px;letter-spacing:0.34em;text-transform:uppercase;color:var(--ink-faint)}
+.res-hero{text-align:center;margin:18px auto 8px;position:relative}
+.res-char{font-family:var(--sc);font-size:clamp(5rem,16vw,9rem);font-weight:900;line-height:1;color:var(--pc);text-shadow:0 0 60px color-mix(in srgb,var(--pc) 45%,transparent)}
+.res-arche{font-family:var(--serif);font-size:clamp(2.2rem,6vw,3.6rem);font-weight:300;margin-top:6px}
+.res-arche em{color:var(--pc);font-style:normal}
+.res-tag{color:var(--ink-dim);margin-top:10px;font-size:1.05rem}
+.res-blurb{max-width:640px;margin:22px auto 0;color:var(--ink);font-size:1.08rem;text-align:center}
+.res-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:46px;align-items:center;margin-top:60px}
+.radar-box{display:flex;flex-direction:column;align-items:center}
+.radar-canvas{width:300px;height:300px;max-width:80vw}
+.comp-list{margin-top:18px;width:100%;max-width:300px}
+.comp-row{display:flex;align-items:center;gap:10px;font-size:13px;margin:7px 0}
+.comp-row .cc{font-family:var(--sc);font-weight:700;width:18px;color:var(--rc)}
+.comp-bar{flex:1;height:6px;background:rgba(236,228,211,0.10);border-radius:3px;overflow:hidden}
+.comp-bar i{display:block;height:100%;background:var(--rc);border-radius:3px;width:0;transition:width .9s cubic-bezier(.2,.7,.3,1)}
+.comp-pct{width:42px;text-align:right;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.res-detail h3{font-family:var(--serif);font-size:1.6rem;font-weight:500;margin:0 0 16px}
+.attr{margin-bottom:18px}
+.attr .lab{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--pc);font-weight:700;margin-bottom:5px}
+.zh .attr .lab{letter-spacing:0.08em}
+.attr p{color:var(--ink-dim);font-size:0.98rem}
+.attr .figs{font-family:var(--sc);color:var(--ink);font-size:0.98rem}
+
+.panel{border:1px solid var(--border-soft);border-radius:18px;padding:30px 30px;background:var(--card);margin-top:30px}
+.panel h3{font-family:var(--serif);font-weight:500;font-size:1.4rem;margin-bottom:6px}
+.panel .sub{color:var(--ink-faint);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:18px}
+.cycle-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cyc{border:1px solid var(--border-soft);border-radius:14px;padding:18px 20px;position:relative}
+.cyc .ico{font-family:var(--sc);font-size:28px;font-weight:900;float:right;line-height:1}
+.cyc .k{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.cyc h4{font-family:var(--serif);font-weight:500;font-size:1.15rem;margin:3px 0 7px}
+.cyc p{font-size:0.92rem;color:var(--ink-dim)}
+.blend-text{color:var(--ink);font-size:1.04rem}
+.blend-text b{color:var(--gold);font-weight:700}
+.growth-list{list-style:none;margin-top:6px}
+.growth-list li{position:relative;padding-left:22px;margin:11px 0;color:var(--ink-dim);font-size:0.98rem}
+.growth-list li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--pc)}
+
+.res-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:50px}
+.note{text-align:center;color:var(--ink-faint);font-size:12.5px;margin-top:40px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+/* footer */
+footer{border-top:1px solid var(--border-soft);padding:40px 24px;text-align:center;color:var(--ink-faint);font-size:13px}
+footer a{color:var(--gold)}
+
+@media(max-width:760px){
+  .cycle-wrap{grid-template-columns:1fr;gap:34px}
+  .res-grid{grid-template-columns:1fr;gap:36px}
+  .cycle-cards{grid-template-columns:1fr}
+  .lang-toggle{top:50px}
+}
+.fade{animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="lang-toggle" role="group" aria-label="Language">
+  <button id="btn-en" class="on" onclick="setLang('en')">EN</button>
+  <button id="btn-zh" onclick="setLang('zh')">中文</button>
+</div>
+
+<!-- ════════ HERO ════════ -->
+<section id="hero">
+  <div class="eyebrow"><span class="en-t">Wu Xing · Personality</span><span class="zh-t">五行 · 人格图谱</span></div>
+  <h1>
+    <span class="en-t">The Five <em>Elements</em></span>
+    <span class="zh-t">五行人格</span>
+  </h1>
+  <div class="hero-cn en-t">五 行 人 格</div>
+  <div class="hero-penta" id="heroPenta"></div>
+  <p class="hero-sub">
+    <span class="en-t">Five forces move through every person — the Blade that cuts, the Wood that grows, the Water that flows, the Fire that ignites, the Earth that holds. Which are you most inclined toward? Answer 28 scenarios and read your elemental composition.</span>
+    <span class="zh-t">五种力量穿行于每个人之中——切割的「金」、生长的「木」、流动的「水」、点燃的「火」、承载的「土」。你最倾向于哪一种？回答 28 道情境题，读出你的五行配比。</span>
+  </p>
+  <button class="cta" onclick="startQuiz()">
+    <span class="en-t">Begin the Assessment</span><span class="zh-t">开始测评</span> →
+  </button>
+  <div class="scroll-hint"><span class="en-t">or scroll to explore the elements</span><span class="zh-t">或向下了解五行</span></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ ELEMENTS ════════ -->
+<section class="pad">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">§ 01 · 五行</div>
+      <h2><span class="en-t">The Five Archetypes</span><span class="zh-t">五大原型</span></h2>
+      <p><span class="en-t">Each element is a way of meeting the world. No type is better; everyone carries all five in different proportions.</span><span class="zh-t">每一行都是一种面对世界的方式。没有高下之分，每个人都以不同比例承载着五行。</span></p>
+    </div>
+    <div class="el-grid" id="elGrid"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════ CYCLES ════════ -->
+<section class="pad">
+  <div class="wrap">
+    <div class="s-head">
+      <div class="s-num">§ 02 · 相生相克</div>
+      <h2><span class="en-t">Generation &amp; Control</span><span class="zh-t">相生与相克</span></h2>
+      <p><span class="en-t">The elements are not isolated. Each one feeds another and checks another — the engine behind your strengths, your tensions, and your path of growth.</span><span class="zh-t">五行并非孤立。每一行都滋养着另一行，又制约着另一行——这正是你的优势、张力与成长之道背后的引擎。</span></p>
+    </div>
+    <div class="cycle-wrap">
+      <div class="cycle-svg" id="cycleSvg"></div>
+      <div class="cycle-legend">
+        <div class="leg">
+          <div class="leg-dot" style="background:var(--gold)"></div>
+          <div>
+            <h4><span class="en-t">Generation 相生</span><span class="zh-t">相生</span></h4>
+            <p><span class="en-t">Wood feeds Fire · Fire makes Earth · Earth bears Metal · Metal carries Water · Water grows Wood. The element that generates you is your <em>source</em> — cultivate it to recharge.</span><span class="zh-t">木生火 · 火生土 · 土生金 · 金生水 · 水生木。生你的那一行是你的「本源」——滋养它，便能回血。</span></p>
+          </div>
+        </div>
+        <div class="leg">
+          <div class="leg-dot" style="background:var(--fire)"></div>
+          <div>
+            <h4><span class="en-t">Control 相克</span><span class="zh-t">相克</span></h4>
+            <p><span class="en-t">Wood parts Earth · Earth dams Water · Water quenches Fire · Fire melts Metal · Metal chops Wood. The element that controls you is your <em>discipline</em> — respect it to stay balanced.</span><span class="zh-t">木克土 · 土克水 · 水克火 · 火克金 · 金克木。克你的那一行是你的「修炼」——敬畏它，方得平衡。</span></p>
+          </div>
+        </div>
+        <div style="margin-top:6px">
+          <button class="cta" onclick="startQuiz()"><span class="en-t">Find My Element</span><span class="zh-t">测出我的五行</span> →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ QUIZ ════════ -->
+<section id="quiz">
+  <div class="q-progress-wrap">
+    <div class="q-progress-inner">
+      <div class="q-bar"><i id="qFill"></i></div>
+      <div class="q-count" id="qCount">1 / 28</div>
+    </div>
+  </div>
+  <div class="q-stage">
+    <div class="q-num" id="qNum"></div>
+    <div class="q-text" id="qText"></div>
+    <div class="opts" id="qOpts"></div>
+    <div class="q-nav">
+      <button class="q-back" id="qBack" onclick="prevQ()">← <span class="en-t">Back</span><span class="zh-t">上一题</span></button>
+      <span class="q-skip-note"><span class="en-t">Pick what feels most like you</span><span class="zh-t">选择最像你的那一项</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ RESULT ════════ -->
+<section id="result"><div class="wrap" id="resultInner"></div></section>
+
+<footer>
+  <p>
+    <span class="en-t">A Psyverse instrument developed from the Five Elements section of the </span>
+    <span class="zh-t">脱胎于 </span>
+    <a href="https://psyverse.fun/">psyverse.fun</a>
+    <span class="en-t"> manifesto.</span>
+    <span class="zh-t"> 宣言中「五行」一节的赛博灵境测评。</span>
+  </p>
+  <p style="margin-top:8px;opacity:0.7">© Gewenbo · Psyverse · <span class="en-t">For reflection, not divination.</span><span class="zh-t">用于自省，而非占卜。</span></p>
+</footer>
+
+<!-- Analytics -->
+<script src="https://analytics-dashboard-two-blue.vercel.app/tracker.js" defer></script>
+
+<script>
+/* ════════════════════════════════════════════════════════════
+   THE FIVE ELEMENTS — data + scoring engine
+   ════════════════════════════════════════════════════════════ */
+"use strict";
+
+var LANG = "en";
+
+// ── element definitions ──────────────────────────────────────
+var EL = {
+  metal: {
+    char:"金", color:"#c9c4b8", key:"metal",
+    arche_en:"The Blade", arche_zh:"锋",
+    pin:"METAL · JĪN",
+    tag_en:"Cutting — Sharpness & Rules", tag_zh:"切割 — 锋芒与规则",
+    world_en:"cuts the world", world_zh:"切割世界",
+    blurb_en:"You meet the world with an edge. Where others see a blur, you see the line that should be drawn — between right and sloppy, signal and noise, what ships and what does not. You impose order, hold standards, and refine until it is clean.",
+    blurb_zh:"你以锋刃面对世界。别人看到一团模糊，你却看见那条本该划下的线——对与糙、信号与噪声、可交付与不可交付之间。你建立秩序，坚守标准，打磨到干净为止。",
+    strength_en:"Decisive, principled, precise. You set the bar, say the hard no, and build systems that last. People trust your judgment because it is consistent.",
+    strength_zh:"果决、有原则、精准。你设定标准，敢说那个艰难的「不」，建立持久的体系。人们信任你的判断，因为它前后一致。",
+    shadow_en:"The edge can cut your own people. Rigidity, cold perfectionism, intolerance of mess and ambiguity. A sharp word lands harder than you intend.",
+    shadow_zh:"锋刃也会割伤自己人。僵硬、冷峻的完美主义、无法忍受混乱与模糊。一句利落的话，杀伤力往往超出你的本意。",
+    work_en:"The architect of standards — the operator, editor, founder who ships quality and refuses to lower the bar.",
+    work_zh:"标准的建筑师——那个交付品质、绝不降低底线的操盘者、编辑与创始人。",
+    figs:"钢铁侠 · 乔布斯"
+  },
+  wood: {
+    char:"木", color:"#8bb57b", key:"wood",
+    arche_en:"The Awakening", arche_zh:"苏",
+    pin:"WOOD · MÙ",
+    tag_en:"Growth — Awakening & Understanding", tag_zh:"生长 — 觉醒与理解",
+    world_en:"understands the world", world_zh:"理解世界",
+    blurb_en:"You meet the world with a question. You want to understand how it works at the root, then grow past the edge of what is known. You are pulled toward the next frontier — the next idea, the next version, the next becoming.",
+    blurb_zh:"你以问题面对世界。你想从根本上理解它的运作，再生长越过已知的边界。你被下一道前沿牵引——下一个想法、下一个版本、下一次成为。",
+    strength_en:"Curious, visionary, generative. You learn relentlessly, think in first principles, and see futures others cannot yet picture.",
+    strength_zh:"好奇、有远见、富生成力。你不知疲倦地学习，以第一性原理思考，看见别人尚无法描绘的未来。",
+    shadow_en:"You overextend into too many branches, get lost in abstraction, and grow impatient with the mundane present that keeps things alive.",
+    shadow_zh:"你向太多枝杈过度伸展，迷失于抽象，对那些维系生命的平凡当下失去耐心。",
+    work_en:"The researcher and inventor — the founder-thinker who sees the system whole and reaches for the next frontier.",
+    work_zh:"研究者与发明家——那个洞见系统全貌、伸手触碰下一道前沿的思想型创始人。",
+    figs:"爱因斯坦 · 马斯克"
+  },
+  water: {
+    char:"水", color:"#6fa5c7", key:"water",
+    arche_en:"The Flow", arche_zh:"御",
+    pin:"WATER · SHUǏ",
+    tag_en:"Control — Adapting & Riding the Trend", tag_zh:"掌控 — 顺势与流动",
+    world_en:"steers the world", world_zh:"操控世界",
+    blurb_en:"You meet the world by reading its current. You sense where things are flowing and move with them — influence without force, victory without a fight. You take the shape of any vessel, then quietly fill it.",
+    blurb_zh:"你以读懂水流面对世界。你感知事物的去向，顺势而行——不靠蛮力而施影响，不必交战而得胜。你能化作任何容器的形状，再悄然将其充满。",
+    strength_en:"Adaptable, strategic, socially fluent. You read people and situations instantly, find the path of least resistance, and bend without breaking.",
+    strength_zh:"善于适应、富于谋略、社交通透。你瞬间读懂人与局势，找到阻力最小的路径，能屈而不折。",
+    shadow_en:"Formless can become spineless. You slip away from commitment, avoid the necessary confrontation, and risk losing your own shape in everyone else's.",
+    shadow_zh:"无形也可能沦为无骨。你从承诺中溜走，回避必要的对峙，并有在他人形状中丢失自我的风险。",
+    work_en:"The strategist and connector — the operator, dealmaker, diplomat who finds the angle and moves the room.",
+    work_zh:"谋略家与连接者——那个找到角度、撬动全场的操盘者、谈判者与外交家。",
+    figs:"刘邦 · 路飞"
+  },
+  fire: {
+    char:"火", color:"#d66b4a", key:"fire",
+    arche_en:"The Wind", arche_zh:"风",
+    pin:"FIRE · HUǑ",
+    tag_en:"Ignition — Rebellion & Activation", tag_zh:"点燃 — 不羁与激活",
+    world_en:"activates the world", world_zh:"激活世界",
+    blurb_en:"You meet the world by setting it alight. You break the stale frame, bring play where there was procedure, and pull energy into a room by simply walking in. Where you go, things start to move.",
+    blurb_zh:"你以点燃面对世界。你打破陈腐的框架，在程序之处带来玩兴，仅仅走进房间便把能量拉满。你所到之处，万物开始流动。",
+    strength_en:"Passionate, charismatic, brave. You make things happen, energize the people around you, and dare to break what everyone else only complains about.",
+    strength_zh:"热烈、有魅力、无畏。你让事情真正发生，点燃身边的人，敢于打破那些别人只会抱怨的东西。",
+    shadow_en:"Fire is hard to contain. Impulsive, scattered, prone to burnout — you start a hundred blazes and leave others to tend the ash.",
+    shadow_zh:"火难以收束。冲动、散漫、易于燃尽——你点起上百场火，却把余烬留给别人照看。",
+    work_en:"The catalyst and performer — the founder who creates momentum, culture, and the spark a team rallies around.",
+    work_zh:"催化者与表演者——那个创造势能、文化，以及团队为之凝聚的火花的创始人。",
+    figs:"韦小宝 · 周星驰"
+  },
+  earth: {
+    char:"土", color:"#caa567", key:"earth",
+    arche_en:"The Soul", arche_zh:"魂",
+    pin:"EARTH · TǓ",
+    tag_en:"Bearing — Stability & Transcendence", tag_zh:"承载 — 稳定与超越",
+    world_en:"holds the world", world_zh:"承载世界",
+    blurb_en:"You meet the world by holding it. You are the ground others stand on — steady when the storm comes, present when others scatter. You do not need to strive to prove you exist; you simply are, and that is enough.",
+    blurb_zh:"你以承载面对世界。你是他人立足的大地——风暴来时不动，众人四散时仍在。你无需奋力证明自己存在；你只是「在」，而这已然足够。",
+    strength_en:"Stable, reliable, deep, patient. You endure what others cannot, hold space for people, and play the long game when everyone else chases the quick win.",
+    strength_zh:"稳定、可靠、深厚、有耐心。你承受别人无法承受的，为他人留出空间，在众人追逐速胜时下着长久的棋。",
+    shadow_en:"Ground can become stuck. Passive, change-resistant, over-giving — you absorb everyone's weight until your own shape is buried under it.",
+    shadow_zh:"大地也会陷入停滞。被动、抗拒改变、过度给予——你吸纳所有人的重量，直到自己的形状被埋在其下。",
+    work_en:"The foundation and keeper — the one who holds the team, carries the load, and outlasts every cycle.",
+    work_zh:"根基与守护者——那个撑住团队、扛起重担、熬过每一个周期的人。",
+    figs:"老子 · 尼采"
+  }
+};
+var ORDER = ["metal","wood","water","fire","earth"];
+
+// cycle relationships --------------------------------------------------
+// generates[x] = the element x nourishes (its "child")
+var GENERATES = {wood:"fire", fire:"earth", earth:"metal", metal:"water", water:"wood"};
+// generatedBy[x] = the element that nourishes x (its "source/mother")
+var GENERATED_BY = {fire:"wood", earth:"fire", metal:"earth", water:"metal", wood:"water"};
+// controls[x] = the element x checks
+var CONTROLS = {wood:"earth", earth:"water", water:"fire", fire:"metal", metal:"wood"};
+// controlledBy[x] = the element that checks x (its "discipline")
+var CONTROLLED_BY = {earth:"wood", water:"earth", fire:"water", metal:"fire", wood:"metal"};
+
+function relName(a,b){
+  if(GENERATES[a]===b) return "generates";
+  if(GENERATED_BY[a]===b) return "generatedBy";
+  if(CONTROLS[a]===b) return "controls";
+  if(CONTROLLED_BY[a]===b) return "controlledBy";
+  return "same";
+}
+
+// growth advice per element (cycle-derived) ----------------------------
+function growthFor(p){
+  var src = GENERATED_BY[p], disc = CONTROLLED_BY[p], child = GENERATES[p];
+  return {
+    en:[
+      "Recharge through your source — "+EL[src].arche_en+" ("+EL[src].char+"). When you feel depleted, lean on "+EL[src].tag_en.split(" — ")[0].toLowerCase()+": "+srcAdvice(p,"en")+".",
+      "Respect your discipline — "+EL[disc].arche_en+" ("+EL[disc].char+"). The "+EL[disc].char+" energy checks your excess; borrowing a little of it keeps you balanced: "+discAdvice(p,"en")+".",
+      "Give to your child — "+EL[child].arche_en+" ("+EL[child].char+"). Your natural output feeds "+EL[child].char+"; pour your strength there and it compounds."
+    ],
+    zh:[
+      "向本源回血——"+EL[src].arche_zh+"（"+EL[src].char+"）。当你枯竭时，倚靠它："+srcAdvice(p,"zh")+"。",
+      "敬畏你的修炼——"+EL[disc].arche_zh+"（"+EL[disc].char+"）。"+EL[disc].char+"之力制约你的过度；借一点它的特质，便能守住平衡："+discAdvice(p,"zh")+"。",
+      "滋养你的孩子——"+EL[child].arche_zh+"（"+EL[child].char+"）。你天然的输出滋养着"+EL[child].char+"；把力量倾注于此，它会复利增长。"
+    ]
+  };
+}
+function srcAdvice(p,l){
+  var m={
+    metal:{en:"let solid ground and patience restore your edge",zh:"让坚实的大地与耐心恢复你的锋芒"},
+    wood:{en:"return to deep, quiet reflection to feed new growth",zh:"回到深沉安静的沉思，喂养新的生长"},
+    water:{en:"let clear structure and standards give your flow direction",zh:"让清晰的结构与标准为你的流动指引方向"},
+    fire:{en:"let curiosity and fresh understanding rekindle your spark",zh:"让好奇与新的理解重燃你的火花"},
+    earth:{en:"let warmth, passion and play renew your steadiness",zh:"让温度、热情与玩兴更新你的沉稳"}
+  };
+  return m[p][l];
+}
+function discAdvice(p,l){
+  var m={
+    metal:{en:"let a little fire and humor soften the blade",zh:"让一点火与幽默软化锋刃"},
+    wood:{en:"let a little metal discipline focus your branches",zh:"让一点金的纪律收束你的枝杈"},
+    water:{en:"let a little earth give you a stable core to return to",zh:"让一点土给你一个可以回归的稳定内核"},
+    fire:{en:"let a little water cool and channel the blaze",zh:"让一点水冷却并疏导这场火"},
+    earth:{en:"let a little wood pull you toward movement and growth",zh:"让一点木牵引你走向流动与生长"}
+  };
+  return m[p][l];
+}
+
+// ── QUESTION BANK ─────────────────────────────────────────────
+// each option coded m/w/a(water)/f/e ; a = water to avoid clash with 'w'
+var Q = [
+ {en:"A new project lands on your desk. Your first move is to —",
+  zh:"一个新项目落到你手上，你的第一反应是——",
+  o:{m:["Define the standard and scope before anything else","先定义标准与边界，其他都靠后"],
+     w:["Understand why it matters and how it really works","先弄懂它为何重要、究竟如何运作"],
+     a:["Read the players and find the smartest angle in","读懂相关的人，找到切入的最佳角度"],
+     f:["Get something moving fast to build momentum","赶紧动起来，先把势能造出来"],
+     e:["Steady the foundations so it can carry weight","先把地基打稳，让它扛得住分量"]}},
+
+ {en:"In a group, you naturally become the one who —",
+  zh:"在团队里，你天然成为那个——",
+  o:{m:["Keeps quality high and calls out what's sloppy","守住品质、指出哪里马虎的人"],
+     w:["Maps the big picture and where it's all headed","勾勒全局、看清走向的人"],
+     a:["Reads the room and keeps everyone aligned","察言观色、让大家步调一致的人"],
+     f:["Brings the energy and gets people excited","带来能量、点燃大家热情的人"],
+     e:["Holds it together when things get rough","风浪中把局面稳住的人"]}},
+
+ {en:"What frustrates you most in other people?",
+  zh:"别人身上最让你受不了的是？",
+  o:{m:["Carelessness and low standards","马虎与低标准"],
+     w:["Incuriosity — refusing to learn or grow","缺乏好奇——拒绝学习与成长"],
+     a:["Rigidity — unable to read a situation","僵化——读不懂局势"],
+     f:["Dullness — playing it safe and lifeless","沉闷——四平八稳、毫无生气"],
+     e:["Flakiness — no reliability or follow-through","靠不住——不可靠、不善始善终"]}},
+
+ {en:"Your ideal free day looks like —",
+  zh:"你理想中的闲暇一天是——",
+  o:{m:["Organizing, refining, getting things just right","整理、打磨，把事情弄到恰到好处"],
+     w:["Falling down a rabbit hole of something new","一头扎进某个全新领域的兔子洞"],
+     a:["Moving between people and plans, improvising","在人与计划之间穿梭，随机应变"],
+     f:["Something spontaneous, loud, and alive","某件即兴的、热闹的、鲜活的事"],
+     e:["Quiet, slow, rooted in a familiar place","安静、缓慢，扎根在熟悉的地方"]}},
+
+ {en:"Under real pressure, you tend to —",
+  zh:"真正承压时，你往往会——",
+  o:{m:["Get sharper and more exacting","变得更锋利、更严苛"],
+     w:["Step back to rethink the whole approach","退后一步，重新思考整套打法"],
+     a:["Stay fluid and find another way through","保持灵活，另寻通路"],
+     f:["Act fast, even if it's messy","快速行动，哪怕一团糟"],
+     e:["Hold steady and absorb the shock","稳住阵脚，吸收冲击"]}},
+
+ {en:"The compliment that means the most to you is —",
+  zh:"对你而言分量最重的称赞是——",
+  o:{m:["“Nobody holds the bar like you.”","「没人像你这样守得住标准。」"],
+     w:["“You see things the rest of us can't.”","「你看得见我们看不见的东西。」"],
+     a:["“You always know how to make it work.”","「你总有办法把事情办成。」"],
+     f:["“Everything's more alive when you're here.”","「你在的时候一切都更鲜活。」"],
+     e:["“I know I can always count on you.”","「我知道永远可以靠你。」"]}},
+
+ {en:"When you disagree with someone, you —",
+  zh:"与人意见不合时，你会——",
+  o:{m:["State the principle plainly, even if it stings","直陈原则，哪怕扎人"],
+     w:["Reframe it as a deeper question to explore","把它重构成一个值得深挖的问题"],
+     a:["Find the framing you can both accept","找到双方都能接受的说法"],
+     f:["Challenge it head-on, with heat","正面硬刚，带着火气"],
+     e:["Listen long, hold your ground quietly","久久倾听，安静地守住立场"]}},
+
+ {en:"Your relationship to rules is best described as —",
+  zh:"你与「规则」的关系最接近——",
+  o:{m:["Rules are the spine of good work","规则是优秀工作的脊梁"],
+     w:["Rules are hypotheses to be improved","规则是有待改进的假设"],
+     a:["Rules are terrain to navigate cleverly","规则是用来巧妙穿行的地形"],
+     f:["Rules are made to be broken open","规则就是用来打破的"],
+     e:["Rules matter less than what endures","规则不如那些恒久之物重要"]}},
+
+ {en:"What does “success” really mean to you?",
+  zh:"「成功」对你究竟意味着什么？",
+  o:{m:["Mastery — work so clean it's undeniable","精通——干净到无可辩驳的作品"],
+     w:["Understanding — reaching what no one grasped before","理解——抵达无人曾把握之处"],
+     a:["Leverage — moving the world without force","借势——不靠蛮力撬动世界"],
+     f:["Aliveness — a life that burned bright","鲜活——一段熊熊燃烧过的人生"],
+     e:["Peace — being whole, needing nothing to prove","安宁——圆满，无需证明什么"]}},
+
+ {en:"Learning something new, you reach first for —",
+  zh:"学习新东西时，你首先抓住——",
+  o:{m:["The rules and the correct method","规则与正确的方法"],
+     w:["The underlying principle and the why","底层原理与「为什么」"],
+     a:["A mentor or shortcut from someone who knows","懂行之人的指点或捷径"],
+     f:["Just diving in and learning by doing","直接跳进去，边做边学"],
+     e:["Slow, patient, repeated practice","缓慢、耐心、反复的练习"]}},
+
+ {en:"After a real failure, your instinct is to —",
+  zh:"一次真正的失败后，你的本能是——",
+  o:{m:["Audit exactly what broke and fix the process","精确复盘哪里崩了，修好流程"],
+     w:["Extract the lesson and update your model","提炼教训，更新你的认知模型"],
+     a:["Adapt, pivot, find the next opening","适应、转向，找到下一个缺口"],
+     f:["Shake it off and throw yourself at the next thing","抖落它，扑向下一件事"],
+     e:["Sit with it, endure, and quietly rebuild","与它共处，承受，安静地重建"]}},
+
+ {en:"At a gathering of strangers, you're the one who —",
+  zh:"在一群陌生人中，你是那个——",
+  o:{m:["Observes carefully, speaks precisely","仔细观察、精准发言的人"],
+     w:["Drifts into the deepest conversation in the room","飘向全场最深一段对话的人"],
+     a:["Works the room and connects people","穿梭全场、串联众人的人"],
+     f:["Becomes the center of the fun","成为欢乐中心的人"],
+     e:["Anchors a small corner of real talk","在角落里锚定一段真诚交谈的人"]}},
+
+ {en:"Your workspace tends to be —",
+  zh:"你的工作空间往往是——",
+  o:{m:["Spare, ordered, everything in its place","简净、有序，物归其位"],
+     w:["Layered with books, notes, half-formed ideas","堆叠着书、笔记与半成形的想法"],
+     a:["Flexible — wherever the work flows that day","灵活——哪里顺手就在哪里"],
+     f:["Lively chaos that somehow energizes you","活泼的混乱，却莫名让你来劲"],
+     e:["Warm, lived-in, full of familiar things","温暖、有生活感，满是熟悉之物"]}},
+
+ {en:"You're most proud of your —",
+  zh:"你最引以为傲的是自己的——",
+  o:{m:["Standards — you never let quality slip","标准——你从不让品质滑坡"],
+     w:["Mind — you keep seeing further","头脑——你总能看得更远"],
+     a:["Instincts — you always find the way","直觉——你总能找到出路"],
+     f:["Spirit — you bring things to life","精气神——你让事物活过来"],
+     e:["Constancy — you're always there","恒常——你始终都在"]}},
+
+ {en:"The danger you have to watch in yourself is —",
+  zh:"你必须警惕自己身上的危险是——",
+  o:{m:["Becoming cold, rigid, hard to please","变得冷峻、僵硬、难以取悦"],
+     w:["Drifting into your head, away from reality","飘进脑中，离现实越来越远"],
+     a:["Becoming slippery, avoiding commitment","变得滑溜，回避承诺"],
+     f:["Burning out, leaving messes behind","燃尽自己，身后留下烂摊子"],
+     e:["Getting stuck, absorbing everyone's weight","陷入停滞，吸纳所有人的重量"]}},
+
+ {en:"You'd rather be —",
+  zh:"你宁愿——",
+  o:{m:["Respected for being right","因正确而被尊敬"],
+     w:["Remembered for an idea","因一个想法而被记住"],
+     a:["The one who quietly shaped the outcome","成为悄然塑造结局的人"],
+     f:["Loved for being unforgettable","因难忘而被喜爱"],
+     e:["Trusted as someone's solid ground","作为某人坚实的大地而被信赖"]}},
+
+ {en:"When the team is stuck, you —",
+  zh:"当团队卡住时，你会——",
+  o:{m:["Cut the bad options and force a decision","砍掉烂选项，逼出一个决定"],
+     w:["Reframe the problem from the ground up","从根上重构这个问题"],
+     a:["Negotiate a path everyone can move on","谈出一条人人都能走的路"],
+     f:["Break the deadlock with a bold move","以一个大胆动作打破僵局"],
+     e:["Calm everyone and hold the room steady","安抚众人，稳住全场"]}},
+
+ {en:"Money, to you, is mainly —",
+  zh:"金钱对你而言主要是——",
+  o:{m:["A scoreboard for doing things right","把事做对的记分牌"],
+     w:["Fuel for the next big idea","下一个大想法的燃料"],
+     a:["Optionality — room to maneuver","可选项——回旋的余地"],
+     f:["Freedom to do what feels alive","去做鲜活之事的自由"],
+     e:["Security — a buffer that lets you rest","保障——让你能安心歇息的缓冲"]}},
+
+ {en:"Your favorite kind of conversation is —",
+  zh:"你最爱的那类对话是——",
+  o:{m:["Sharp, precise, getting to what's true","锋利、精准，直抵真相"],
+     w:["Big, exploratory, full of “what if”","宏大、探索性的，满是「如果……会怎样」"],
+     a:["Reading between the lines, sensing motives","读出言外之意，揣摩动机"],
+     f:["Funny, fast, sparking off each other","好笑、飞快，彼此擦出火花"],
+     e:["Slow, honest, the kind that goes deep","缓慢、坦诚，能往深里去的那种"]}},
+
+ {en:"The motto closest to your heart is —",
+  zh:"最贴近你内心的格言是——",
+  o:{m:["“Do it right or don't do it.”","「要么做对，要么别做。」"],
+     w:["“Understand everything; assume nothing.”","「理解一切，不臆断分毫。」"],
+     a:["“Be like water.”","「上善若水。」"],
+     f:["“Better to burn out than fade away.”","「宁可燃尽，不愿黯淡。」"],
+     e:["“Still water runs deep.”","「静水流深。」"]}},
+
+ {en:"Facing a sudden big change, you feel —",
+  zh:"面对突如其来的巨变，你感到——",
+  o:{m:["The urge to set new rules fast","想尽快立下新规则"],
+     w:["Excited — a chance to rethink everything","兴奋——一个重新思考一切的机会"],
+     a:["At home — change is your element","如鱼得水——变化正是你的主场"],
+     f:["Energized — finally, something happening","来劲——总算有事发生了"],
+     e:["Braced — you'll hold while it passes","稳住——你会撑到它过去"]}},
+
+ {en:"People come to you when they need —",
+  zh:"当人们需要以下时会来找你——",
+  o:{m:["An honest, exacting judgment","一个诚实而严格的判断"],
+     w:["A new way to see their problem","一种看待问题的全新视角"],
+     a:["Someone to navigate a tricky situation","一个能搞定棘手局面的人"],
+     f:["A jolt of courage and energy","一剂勇气与能量"],
+     e:["A steady presence that won't flinch","一个不会退缩的稳定存在"]}},
+
+ {en:"In love and friendship, your gift is —",
+  zh:"在爱与友谊中，你的天赋是——",
+  o:{m:["Loyalty with backbone — you protect what's real","有骨气的忠诚——你守护真实之物"],
+     w:["You help people become who they could be","你帮人成为他们本可成为的样子"],
+     a:["You sense what's unspoken and meet it","你感知未说出口的，并予以回应"],
+     f:["You make ordinary days feel like adventures","你让平凡的日子像冒险"],
+     e:["You're the one who never leaves","你是那个永不离开的人"]}},
+
+ {en:"How do you plan?",
+  zh:"你如何做计划？",
+  o:{m:["Detailed, structured, milestone by milestone","细致、有结构，一个里程碑接一个"],
+     w:["Around a vision; details fill in later","围绕愿景；细节后补"],
+     a:["Loosely — I adjust as the situation moves","松散——随局势变化而调整"],
+     f:["Barely — I trust momentum over the map","几乎不——我信势能胜过地图"],
+     e:["Steady habits more than plans","与其说计划，不如说稳定的习惯"]}},
+
+ {en:"What gives you the deepest satisfaction?",
+  zh:"什么给你最深的满足？",
+  o:{m:["A flaw found and fixed; a thing made perfect","找出并修复一个瑕疵；把东西做到完美"],
+     w:["A concept finally clicking into place","一个概念终于豁然贯通"],
+     a:["A complex situation resolved your way","一个复杂局面按你的方式化解"],
+     f:["A moment so alive it gives you chills","一个鲜活到让你起鸡皮疙瘩的瞬间"],
+     e:["A quiet sense that all is well","一种万物安好的静谧感"]}},
+
+ {en:"Your weakness, if you're honest, is —",
+  zh:"说实话，你的弱点是——",
+  o:{m:["You can be too hard — on others and yourself","你可能太苛刻——对人也对己"],
+     w:["You start more than you finish","你开的头多过你收的尾"],
+     a:["You avoid taking a hard, fixed stand","你回避采取强硬而固定的立场"],
+     f:["You don't always finish what you ignite","你点燃的，未必都能烧完"],
+     e:["You resist change long after you should move","该动时你仍久久抗拒改变"]}},
+
+ {en:"The kind of power you most want is —",
+  zh:"你最渴望的那种力量是——",
+  o:{m:["The authority to set the standard","设定标准的权威"],
+     w:["The insight to see what's coming","看见未来走向的洞察"],
+     a:["The influence to move things quietly","在幕后撬动一切的影响力"],
+     f:["The magnetism to move a crowd","点燃人群的魅力"],
+     e:["The stability that nothing can shake","什么都撼动不了的稳定"]}},
+
+ {en:"At the end of it all, you'd want to be remembered as —",
+  zh:"到最后，你希望被人记住为——",
+  o:{m:["The one who built things that lasted and were right","那个造出经久且正确之物的人"],
+     w:["The one who pushed understanding forward","那个推动理解向前的人"],
+     a:["The one who could move through anything","那个能穿越一切的人"],
+     f:["The one who truly, fully lived","那个真正、彻底活过的人"],
+     e:["The one who was always, quietly, there","那个始终、安静地在场的人"]}}
+];
+
+// ── deterministic shuffle (seeded, no Math.random for reproducibility issues) ──
+function shuffle(arr, seed){
+  var a = arr.slice(), s = seed;
+  for(var i=a.length-1;i>0;i--){
+    s = (s*9301 + 49297) % 233280;
+    var j = Math.floor(s/233280 * (i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+
+/* ════════ RENDER: elements + cycle + hero pentagram ════════ */
+function pentaPoints(cx,cy,r){
+  // metal top, wood TR, fire BR, water BL, earth TL  (clockwise from top)
+  var angs=[-90,-18,54,126,198]; // metal, wood, fire, water, earth
+  return angs.map(function(d){var rad=d*Math.PI/180;return [cx+r*Math.cos(rad), cy+r*Math.sin(rad)];});
+}
+function buildHeroPenta(){
+  var P=pentaPoints(160,160,118);
+  var keys=["metal","wood","fire","water","earth"];
+  var s='<svg viewBox="0 0 320 320" aria-hidden="true">';
+  s+='<circle cx="160" cy="160" r="150" fill="none" stroke="#c9a24b" stroke-width="0.5" opacity="0.35"/>';
+  // generation pentagon edges (gold)
+  s+='<g stroke="#c9a24b" stroke-width="0.8" opacity="0.4" fill="none">';
+  for(var i=0;i<5;i++){var p=P[i],q=P[(i+1)%5];s+='<line x1="'+p[0].toFixed(1)+'" y1="'+p[1].toFixed(1)+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'"/>';}
+  s+='</g>';
+  // inner pentagram (control)
+  s+='<g stroke="#d66b4a" stroke-width="0.6" opacity="0.22" fill="none">';
+  for(var i=0;i<5;i++){var p=P[i],q=P[(i+2)%5];s+='<line x1="'+p[0].toFixed(1)+'" y1="'+p[1].toFixed(1)+'" x2="'+q[0].toFixed(1)+'" y2="'+q[1].toFixed(1)+'"/>';}
+  s+='</g>';
+  for(var i=0;i<5;i++){
+    var e=EL[keys[i]],p=P[i];
+    s+='<g transform="translate('+p[0].toFixed(1)+' '+p[1].toFixed(1)+')">';
+    s+='<circle r="29" fill="#0a0908" stroke="'+e.color+'" stroke-width="1.2"/>';
+    s+='<text text-anchor="middle" y="11" font-family="Noto Serif SC" font-size="30" font-weight="900" fill="'+e.color+'">'+e.char+'</text></g>';
+  }
+  s+='</svg>';
+  document.getElementById("heroPenta").innerHTML=s;
+}
+function buildElGrid(){
+  var cls={metal:"m",wood:"w",water:"a",fire:"f",earth:"e"};
+  var h="";
+  ORDER.forEach(function(k){
+    var e=EL[k];
+    h+='<div class="el-card '+cls[k]+'">'
+      +'<div class="el-char">'+e.char+'</div>'
+      +'<div class="el-arche"><span class="en-t">'+e.arche_en+'</span><span class="zh-t sc">'+e.arche_zh+'</span></div>'
+      +'<div class="el-tag">'+e.pin+'</div>'
+      +'<div class="el-desc"><span class="en-t">'+e.tag_en+'. The one who '+e.world_en+'.</span>'
+        +'<span class="zh-t">'+e.tag_zh+'。'+e.world_zh+'之人。</span></div>'
+      +'<div class="el-fig">'+e.figs+'</div>'
+      +'</div>';
+  });
+  document.getElementById("elGrid").innerHTML=h;
+}
+function buildCycleSvg(){
+  var P=pentaPoints(180,180,128);
+  var keys=["metal","wood","fire","water","earth"];
+  var s='<svg viewBox="0 0 360 360">';
+  s+='<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#c9a24b" opacity="0.7"/></marker>'
+    +'<marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#d66b4a" opacity="0.6"/></marker></defs>';
+  // generation arrows (outer pentagon, gold) follow keys order which IS generation if arranged... build by relation
+  s+='<g stroke="#c9a24b" stroke-width="1.4" opacity="0.6" fill="none">';
+  for(var i=0;i<5;i++){
+    var from=keys[i], to=GENERATES[from];
+    var pi=keys.indexOf(from), qi=keys.indexOf(to);
+    var p=P[pi],q=P[qi];
+    // shorten line so arrow sits outside node
+    var dx=q[0]-p[0],dy=q[1]-p[1],len=Math.sqrt(dx*dx+dy*dy);
+    var sx=p[0]+dx/len*32, sy=p[1]+dy/len*32, ex=q[0]-dx/len*36, ey=q[1]-dy/len*36;
+    s+='<line x1="'+sx.toFixed(1)+'" y1="'+sy.toFixed(1)+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" marker-end="url(#ar)"/>';
+  }
+  s+='</g>';
+  // control arrows (inner star, ember)
+  s+='<g stroke="#d66b4a" stroke-width="1" opacity="0.4" fill="none">';
+  for(var i=0;i<5;i++){
+    var from=keys[i], to=CONTROLS[from];
+    var pi=keys.indexOf(from), qi=keys.indexOf(to);
+    var p=P[pi],q=P[qi];
+    var dx=q[0]-p[0],dy=q[1]-p[1],len=Math.sqrt(dx*dx+dy*dy);
+    var sx=p[0]+dx/len*32, sy=p[1]+dy/len*32, ex=q[0]-dx/len*36, ey=q[1]-dy/len*36;
+    s+='<line x1="'+sx.toFixed(1)+'" y1="'+sy.toFixed(1)+'" x2="'+ex.toFixed(1)+'" y2="'+ey.toFixed(1)+'" marker-end="url(#arr)"/>';
+  }
+  s+='</g>';
+  for(var i=0;i<5;i++){
+    var e=EL[keys[i]],p=P[i];
+    s+='<g class="node" transform="translate('+p[0].toFixed(1)+' '+p[1].toFixed(1)+')">';
+    s+='<circle r="31" fill="#0a0908" stroke="'+e.color+'" stroke-width="1.3"/>';
+    s+='<text text-anchor="middle" y="12" font-family="Noto Serif SC" font-size="32" font-weight="900" fill="'+e.color+'">'+e.char+'</text></g>';
+  }
+  s+='</svg>';
+  document.getElementById("cycleSvg").innerHTML=s;
+}
+
+/* ════════ QUIZ FLOW ════════ */
+var qOrder=[], qIndex=0, answers=[];
+function startQuiz(){
+  qOrder = shuffle(Q.map(function(_,i){return i;}), 7); // fixed seed → stable order
+  qIndex=0; answers=new Array(Q.length).fill(null);
+  document.getElementById("hero").style.display="none";
+  document.querySelectorAll("section.pad,.divider").forEach(function(el){el.style.display="none";});
+  document.getElementById("result").classList.remove("active");
+  var q=document.getElementById("quiz"); q.classList.add("active");
+  window.scrollTo(0,0);
+  renderQ();
+}
+function renderQ(){
+  var realIdx=qOrder[qIndex];
+  var q=Q[realIdx];
+  document.getElementById("qNum").textContent = (LANG==="zh"? "第 "+(qIndex+1)+" 问" : "Question "+(qIndex+1));
+  document.getElementById("qText").innerHTML = '<span class="'+(LANG==="zh"?"sc":"")+'">'+(LANG==="zh"?q.zh:q.en)+'</span>';
+  document.getElementById("qCount").textContent=(qIndex+1)+" / "+Q.length;
+  document.getElementById("qFill").style.width=((qIndex)/Q.length*100)+"%";
+  document.getElementById("qBack").disabled = qIndex===0;
+  // option order: shuffle per question with seed from index for stability
+  var optOrder=shuffle(["m","w","a","f","e"], realIdx*13+3);
+  var elc={m:"metal",w:"wood",a:"water",f:"fire",e:"earth"};
+  var h="";
+  optOrder.forEach(function(code){
+    var txt=q.o[code][LANG==="zh"?1:0];
+    var sel = answers[realIdx]===code ? " sel":"";
+    h+='<button class="opt'+sel+'" style="--oc:'+EL[elc[code]].color+'" onclick="pick(\''+code+'\')">'
+      +'<span class="dot"></span><span>'+txt+'</span></button>';
+  });
+  document.getElementById("qOpts").innerHTML=h;
+  var stage=document.querySelector(".q-stage"); stage.classList.remove("fade"); void stage.offsetWidth; stage.classList.add("fade");
+}
+function pick(code){
+  var realIdx=qOrder[qIndex];
+  answers[realIdx]=code;
+  // brief highlight then advance
+  setTimeout(function(){
+    if(qIndex < Q.length-1){ qIndex++; renderQ(); window.scrollTo(0,0);}
+    else finish();
+  },180);
+}
+function prevQ(){ if(qIndex>0){qIndex--; renderQ(); window.scrollTo(0,0);} }
+
+/* ════════ SCORING ════════ */
+function score(){
+  var elc={m:"metal",w:"wood",a:"water",f:"fire",e:"earth"};
+  var counts={metal:0,wood:0,water:0,fire:0,earth:0};
+  var total=0;
+  answers.forEach(function(code){ if(code){counts[elc[code]]++; total++;} });
+  if(total===0) total=1;
+  // percentages with largest-remainder to sum 100
+  var raw={}, floor={}, rem=[], sumF=0;
+  ORDER.forEach(function(k){ raw[k]=counts[k]/total*100; floor[k]=Math.floor(raw[k]); sumF+=floor[k]; rem.push([k,raw[k]-floor[k]]); });
+  var left=100-sumF;
+  rem.sort(function(a,b){return b[1]-a[1];});
+  for(var i=0;i<left;i++){ floor[rem[i][0]]++; }
+  // ranking by count (ties → fixed ORDER priority)
+  var ranked=ORDER.slice().sort(function(a,b){ return counts[b]-counts[a] || ORDER.indexOf(a)-ORDER.indexOf(b); });
+  return {counts:counts, pct:floor, ranked:ranked, total:total};
+}
+
+function finish(){
+  document.getElementById("qFill").style.width="100%";
+  var r=score();
+  renderResult(r);
+  document.getElementById("quiz").classList.remove("active");
+  document.getElementById("result").classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* ════════ RESULT RENDER ════════ */
+function blendText(p,sec){
+  var rel=relName(p,sec);
+  var P=EL[p], S=EL[sec];
+  var map={
+    generates:{en:"You feed your secondary — your "+P.char+" naturally fuels "+S.char+". This is a forward-flowing pair: your primary drive powers your secondary, so when you lead with "+P.arche_en+" you naturally produce "+S.arche_en+" as its output. A smooth, self-reinforcing combination.",
+               zh:"你滋养着次要之行——你的"+P.char+"天然喂养"+S.char+"。这是一组顺流而下的搭配：你的主驱动力为次驱动力供能，当你以"+P.arche_zh+"领头，便自然产出"+S.arche_zh+"。流畅而自我强化的组合。"},
+    generatedBy:{en:"Your secondary feeds your primary — "+S.char+" generates "+P.char+". Your "+S.arche_en+" side is the quiet root that keeps your dominant "+P.arche_en+" replenished. When you honor the secondary, the primary never runs dry.",
+               zh:"你的次要之行滋养着主行——"+S.char+"生"+P.char+"。你的"+S.arche_zh+"是那条安静的根，让占主导的"+P.arche_zh+"持续得到补给。善待次要之行，主行便永不枯竭。"},
+    controls:{en:"A pair with bite — your "+P.char+" controls "+S.char+". You hold a built-in tension: your dominant force keeps your secondary in check. This makes you self-governing but can suppress the very gifts of your "+S.arche_en+" side. Let it breathe.",
+               zh:"一组带着锋牙的搭配——你的"+P.char+"克"+S.char+"。你内含一重张力：主导之力压制着次要之行。这让你能自我节制，却也可能压抑你"+S.arche_zh+"那一面的天赋。给它一点呼吸的空间。"},
+    controlledBy:{en:"A pair under pressure — your secondary "+S.char+" controls your primary "+P.char+". Your "+S.arche_en+" side acts as an inner critic on your dominant drive. Productive in small doses; exhausting if it never lets up. Befriend the tension.",
+               zh:"一组承压的搭配——次要之行"+S.char+"克主行"+P.char+"。你的"+S.arche_zh+"如同对主驱动力的内在审视者。小剂量是建设性的；若从不松手则令人疲惫。与这股张力做朋友。"},
+    same:{en:"A rare, concentrated reading — your "+P.arche_en+" nature stands almost alone.",
+          zh:"一份罕见而集中的结果——你的"+P.arche_zh+"之性几乎独立而立。"}
+  };
+  return map[rel][LANG];
+}
+
+function renderResult(r){
+  var p=r.ranked[0], sec=r.ranked[1];
+  var P=EL[p];
+  var g=growthFor(p);
+  var L=function(en,zh){return LANG==="zh"?zh:en;};
+  var clsmap={metal:"metal",wood:"wood",water:"water",fire:"fire",earth:"earth"};
+
+  var compRows="";
+  r.ranked.forEach(function(k){
+    var e=EL[k];
+    compRows+='<div class="comp-row" style="--rc:'+e.color+'">'
+      +'<span class="cc">'+e.char+'</span>'
+      +'<span style="width:64px;color:var(--ink-dim)">'+L(e.arche_en,e.arche_zh)+'</span>'
+      +'<span class="comp-bar"><i data-w="'+r.pct[k]+'"></i></span>'
+      +'<span class="comp-pct">'+r.pct[k]+'%</span></div>';
+  });
+
+  var growthLis = g[LANG].map(function(t){return '<li>'+t+'</li>';}).join("");
+
+  var src=GENERATED_BY[p], disc=CONTROLLED_BY[p], child=GENERATES[p], ctrl=CONTROLS[p];
+  function cyc(kind,el,k,h,desc){
+    return '<div class="cyc"><div class="ico" style="color:'+EL[el].color+'">'+EL[el].char+'</div>'
+      +'<div class="k">'+k+'</div><h4>'+h+'</h4><p>'+desc+'</p></div>';
+  }
+
+  var html =
+   '<div class="res-eyebrow">'+L("Your dominant element","你的主导之行")+'</div>'
+  +'<div class="res-hero" style="--pc:'+P.color+'">'
+    +'<div class="res-char">'+P.char+'</div>'
+    +'<div class="res-arche">'+L("The ","")+'<em>'+L(P.arche_en.replace("The ",""),P.arche_zh)+'</em></div>'
+    +'<div class="res-tag">'+P.pin+' · '+L(P.tag_en,P.tag_zh)+'</div>'
+    +'<p class="res-blurb">'+L(P.blurb_en,P.blurb_zh)+'</p>'
+  +'</div>'
+
+  +'<div class="res-grid" style="--pc:'+P.color+'">'
+    +'<div class="radar-box">'
+      +'<canvas class="radar-canvas" id="radar" width="600" height="600"></canvas>'
+      +'<div class="comp-list">'+compRows+'</div>'
+    +'</div>'
+    +'<div class="res-detail" style="--pc:'+P.color+'">'
+      +'<h3>'+L("Who you are","你是谁")+'</h3>'
+      +'<div class="attr"><div class="lab">'+L("Strength","优势")+'</div><p>'+L(P.strength_en,P.strength_zh)+'</p></div>'
+      +'<div class="attr"><div class="lab">'+L("Shadow","阴影")+'</div><p>'+L(P.shadow_en,P.shadow_zh)+'</p></div>'
+      +'<div class="attr"><div class="lab">'+L("At work","在工作中")+'</div><p>'+L(P.work_en,P.work_zh)+'</p></div>'
+      +'<div class="attr"><div class="lab">'+L("Kindred spirits","同道之人")+'</div><p class="figs">'+P.figs+'</p></div>'
+    +'</div>'
+  +'</div>'
+
+  // secondary blend
+  +'<div class="panel" style="--pc:'+P.color+'">'
+    +'<h3>'+L(P.arche_en+" + "+EL[sec].arche_en, P.arche_zh+" + "+EL[sec].arche_zh)+' <span style="color:'+EL[sec].color+'">'+EL[sec].char+'</span></h3>'
+    +'<div class="sub">'+L("Your secondary element","你的次要之行")+' · '+EL[sec].pin+'</div>'
+    +'<p class="blend-text">'+blendText(p,sec)+'</p>'
+  +'</div>'
+
+  // cycle
+  +'<div class="panel">'
+    +'<h3>'+L("Your cycles","你的相生相克")+'</h3>'
+    +'<div class="sub">'+L("Generation feeds you · Control disciplines you","相生养你 · 相克炼你")+'</div>'
+    +'<div class="cycle-cards">'
+      +cyc("src",src,L("Your source · generates you","你的本源 · 生你"),EL[src].arche_en?L(EL[src].arche_en,EL[src].arche_zh):"",L(EL[src].char+" generates "+P.char+". Return here to recharge when depleted.",EL[src].char+"生"+P.char+"。枯竭时，回到这里回血。"))
+      +cyc("disc",disc,L("Your discipline · controls you","你的修炼 · 克你"),L(EL[disc].arche_en,EL[disc].arche_zh),L(EL[disc].char+" controls "+P.char+". Respect this energy to stay balanced.",EL[disc].char+"克"+P.char+"。敬畏此力，方得平衡。"))
+      +cyc("child",child,L("Your child · you generate","你的孩子 · 你生"),L(EL[child].arche_en,EL[child].arche_zh),L(P.char+" generates "+EL[child].char+". This is your natural output — pour strength here.",P.char+"生"+EL[child].char+"。这是你天然的输出——把力量倾注于此。"))
+      +cyc("ctrl",ctrl,L("Your check · you control","你所制 · 你克"),L(EL[ctrl].arche_en,EL[ctrl].arche_zh),L(P.char+" controls "+EL[ctrl].char+". You naturally rein this in — use it wisely.",P.char+"克"+EL[ctrl].char+"。你天然能将其收束——善用之。"))
+    +'</div>'
+  +'</div>'
+
+  // growth
+  +'<div class="panel" style="--pc:'+P.color+'">'
+    +'<h3>'+L("Your path of growth","你的成长之道")+'</h3>'
+    +'<div class="sub">'+L("Balance comes from the cycle, not from forcing","平衡来自循环，而非强求")+'</div>'
+    +'<ul class="growth-list">'+growthLis+'</ul>'
+  +'</div>'
+
+  +'<div class="res-actions">'
+    +'<button class="cta" onclick="shareResult(\''+p+'\','+r.pct[p]+')">'+L("Share my result","分享我的结果")+'</button>'
+    +'<button class="cta ghost" onclick="retake()">'+L("Retake","重新测试")+'</button>'
+    +'<button class="cta ghost" onclick="location.href=\'https://psyverse.fun/\'">'+L("Explore Psyverse","探索灵境")+'</button>'
+  +'</div>'
+  +'<p class="note">'+L("This instrument is for self-reflection, not divination or clinical assessment. Your composition is a snapshot of how you tend to meet the world today — it can shift as you do.","本测评用于自我观照，而非占卜或临床诊断。你的配比是你「当下」如何面对世界的一帧快照——它会随你而变。")+'</p>';
+
+  document.getElementById("resultInner").innerHTML=html;
+  // animate bars
+  requestAnimationFrame(function(){
+    document.querySelectorAll(".comp-bar i").forEach(function(b){ b.style.width=b.getAttribute("data-w")+"%"; });
+  });
+  drawRadar(r);
+}
+
+/* ════════ RADAR ════════ */
+function drawRadar(r){
+  var cv=document.getElementById("radar"); if(!cv) return;
+  var ctx=cv.getContext("2d"); if(!ctx) return;
+  var W=cv.width, H=cv.height, cx=W/2, cy=H/2, R=W*0.36;
+  ctx.clearRect(0,0,W,H);
+  var keys=["metal","wood","fire","water","earth"];
+  var angs=[-90,-18,54,126,198].map(function(d){return d*Math.PI/180;});
+  // grid rings
+  for(var g=1;g<=4;g++){
+    ctx.beginPath();
+    for(var i=0;i<5;i++){
+      var rr=R*g/4, x=cx+rr*Math.cos(angs[i]), y=cy+rr*Math.sin(angs[i]);
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle="rgba(236,228,211,0.10)"; ctx.lineWidth=1; ctx.stroke();
+  }
+  // spokes + labels
+  for(var i=0;i<5;i++){
+    var x=cx+R*Math.cos(angs[i]), y=cy+R*Math.sin(angs[i]);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(x,y);
+    ctx.strokeStyle="rgba(236,228,211,0.08)"; ctx.stroke();
+    var lx=cx+(R+40)*Math.cos(angs[i]), ly=cy+(R+40)*Math.sin(angs[i]);
+    ctx.fillStyle=EL[keys[i]].color; ctx.font="900 40px 'Noto Serif SC',serif";
+    ctx.textAlign="center"; ctx.textBaseline="middle";
+    ctx.fillText(EL[keys[i]].char, lx, ly);
+  }
+  // data polygon
+  var maxc=Math.max(1, Math.max.apply(null, keys.map(function(k){return r.counts[k];})));
+  ctx.beginPath();
+  for(var i=0;i<5;i++){
+    var v=r.counts[keys[i]]/maxc; // normalize to strongest
+    var rr=R*Math.max(0.06,v);
+    var x=cx+rr*Math.cos(angs[i]), y=cy+rr*Math.sin(angs[i]);
+    if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  var pc=EL[r.ranked[0]].color;
+  var grad=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+  grad.addColorStop(0, hexA(pc,0.42));
+  grad.addColorStop(1, hexA(pc,0.12));
+  ctx.fillStyle=grad; ctx.fill();
+  ctx.strokeStyle=pc; ctx.lineWidth=2.5; ctx.stroke();
+  // vertices
+  for(var i=0;i<5;i++){
+    var v=r.counts[keys[i]]/maxc, rr=R*Math.max(0.06,v);
+    var x=cx+rr*Math.cos(angs[i]), y=cy+rr*Math.sin(angs[i]);
+    ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2);
+    ctx.fillStyle=EL[keys[i]].color; ctx.fill();
+  }
+}
+function hexA(hex,a){
+  var h=hex.replace("#","");
+  var r=parseInt(h.substring(0,2),16), g=parseInt(h.substring(2,4),16), b=parseInt(h.substring(4,6),16);
+  if(isNaN(r)||isNaN(g)||isNaN(b)) {r=200;g=160;b=80;}
+  a=Math.max(0,Math.min(1,a));
+  return "rgba("+r+","+g+","+b+","+a+")";
+}
+
+/* ════════ SHARE / RETAKE ════════ */
+function shareResult(p,pct){
+  var e=EL[p];
+  var txt = LANG==="zh"
+    ? "我的五行人格是「"+e.arche_zh+"·"+e.char+"」（"+pct+"%）。测出你的五行： "
+    : "My Five Elements type is "+e.arche_en+" ("+e.char+", "+pct+"%). Find yours: ";
+  var url="https://five-elements.psyverse.fun/";
+  if(navigator.share){ navigator.share({title:"The Five Elements", text:txt, url:url}).catch(function(){}); }
+  else {
+    var tw="https://twitter.com/intent/tweet?text="+encodeURIComponent(txt)+"&url="+encodeURIComponent(url);
+    window.open(tw,"_blank");
+  }
+}
+function retake(){
+  document.getElementById("result").classList.remove("active");
+  startQuiz();
+}
+
+/* ════════ LANG ════════ */
+function setLang(l){
+  LANG=l;
+  document.body.classList.toggle("zh", l==="zh");
+  document.documentElement.lang = l==="zh"?"zh-CN":"en";
+  document.getElementById("btn-en").classList.toggle("on", l==="en");
+  document.getElementById("btn-zh").classList.toggle("on", l==="zh");
+  // re-render dynamic views in new language
+  if(document.getElementById("quiz").classList.contains("active")) renderQ();
+  if(document.getElementById("result").classList.contains("active")){ renderResult(score()); }
+}
+
+/* ════════ INIT ════════ */
+buildHeroPenta();
+buildElGrid();
+buildCycleSvg();
+</script>
+</body>
+</html>
