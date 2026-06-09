@@ -305,9 +305,22 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 .cyc{transition:transform .3s cubic-bezier(.2,.7,.3,1),border-color .3s,background .3s}
 .cyc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--gold) 40%,transparent);background:rgba(255,253,247,.04)}
 
+/* — scroll-reveal for landing sections — */
+.sr{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.75,.3,1),transform .8s cubic-bezier(.2,.75,.3,1);transition-delay:var(--sd,0ms)}
+.sr.in{opacity:1;transform:none}
+
+/* — resume chip on hero — */
+.resume-chip{display:none;margin-top:18px;align-items:center;gap:9px;
+  font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-dim);
+  background:rgba(255,253,247,.03);border:1px solid var(--border);border-radius:999px;
+  padding:9px 18px;cursor:pointer;transition:.25s}
+.resume-chip.show{display:inline-flex}
+.resume-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
+.resume-chip .rc-char{font-family:var(--sc);font-weight:900;color:var(--gold)}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  #hero > *,.reveal{opacity:1!important;transform:none!important}
+  #hero > *,.reveal,.sr{opacity:1!important;transform:none!important}
   .res-hero::before{opacity:.5!important}
   .opt .check{opacity:1!important;transform:none!important}
 }
@@ -341,6 +354,7 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
   <button class="cta" onclick="startQuiz()">
     <span class="en-t">Begin the Assessment</span><span class="zh-t">开始测评</span> →
   </button>
+  <div class="resume-chip" id="resumeChip" onclick="resumeResult()"></div>
   <div class="scroll-hint"><span class="en-t">or scroll to explore the elements</span><span class="zh-t">或向下了解五行</span></div>
 </section>
 
@@ -349,7 +363,7 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 <!-- ════════ ELEMENTS ════════ -->
 <section class="pad">
   <div class="wrap">
-    <div class="s-head">
+    <div class="s-head sr">
       <div class="s-num">§ 01 · 五行</div>
       <h2><span class="en-t">The Five Archetypes</span><span class="zh-t">五大原型</span></h2>
       <p><span class="en-t">Each element is a way of meeting the world. No type is better; everyone carries all five in different proportions.</span><span class="zh-t">每一行都是一种面对世界的方式。没有高下之分，每个人都以不同比例承载着五行。</span></p>
@@ -363,12 +377,12 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 <!-- ════════ CYCLES ════════ -->
 <section class="pad">
   <div class="wrap">
-    <div class="s-head">
+    <div class="s-head sr">
       <div class="s-num">§ 02 · 相生相克</div>
       <h2><span class="en-t">Generation &amp; Control</span><span class="zh-t">相生与相克</span></h2>
       <p><span class="en-t">The elements are not isolated. Each one feeds another and checks another — the engine behind your strengths, your tensions, and your path of growth.</span><span class="zh-t">五行并非孤立。每一行都滋养着另一行，又制约着另一行——这正是你的优势、张力与成长之道背后的引擎。</span></p>
     </div>
-    <div class="cycle-wrap">
+    <div class="cycle-wrap sr">
       <div class="cycle-svg" id="cycleSvg"></div>
       <div class="cycle-legend">
         <div class="leg">
@@ -847,9 +861,9 @@ function buildHeroPenta(){
 function buildElGrid(){
   var cls={metal:"m",wood:"w",water:"a",fire:"f",earth:"e"};
   var h="";
-  ORDER.forEach(function(k){
+  ORDER.forEach(function(k,i){
     var e=EL[k];
-    h+='<div class="el-card '+cls[k]+'">'
+    h+='<div class="el-card sr '+cls[k]+'" style="--sd:'+(i*70)+'ms">'
       +'<div class="el-char">'+e.char+'</div>'
       +'<div class="el-arche"><span class="en-t">'+e.arche_en+'</span><span class="zh-t sc">'+e.arche_zh+'</span></div>'
       +'<div class="el-tag">'+e.pin+'</div>'
@@ -969,11 +983,8 @@ document.addEventListener("keydown", function(ev){
 });
 
 /* ════════ SCORING ════════ */
-function score(){
-  var elc={m:"metal",w:"wood",a:"water",f:"fire",e:"earth"};
-  var counts={metal:0,wood:0,water:0,fire:0,earth:0};
-  var total=0;
-  answers.forEach(function(code){ if(code){counts[elc[code]]++; total++;} });
+function buildResult(counts){
+  var total=0; ORDER.forEach(function(k){ total+=counts[k]; });
   if(total===0) total=1;
   // percentages with largest-remainder to sum 100
   var raw={}, floor={}, rem=[], sumF=0;
@@ -985,12 +996,33 @@ function score(){
   var ranked=ORDER.slice().sort(function(a,b){ return counts[b]-counts[a] || ORDER.indexOf(a)-ORDER.indexOf(b); });
   return {counts:counts, pct:floor, ranked:ranked, total:total};
 }
+function score(){
+  var elc={m:"metal",w:"wood",a:"water",f:"fire",e:"earth"};
+  var counts={metal:0,wood:0,water:0,fire:0,earth:0};
+  answers.forEach(function(code){ if(code){counts[elc[code]]++;} });
+  return buildResult(counts);
+}
+function saveResult(r){
+  try{ localStorage.setItem("fe_result", JSON.stringify({counts:r.counts})); }catch(e){}
+}
 
 function finish(){
   document.getElementById("qFill").style.width="100%";
   var r=score();
+  saveResult(r);
   renderResult(r);
   document.getElementById("quiz").classList.remove("active");
+  document.getElementById("result").classList.add("active");
+  window.scrollTo(0,0);
+}
+/* render a result that wasn't just taken (shared link or saved) */
+function showResult(counts, animate){
+  var r=buildResult(counts);
+  document.getElementById("hero").style.display="none";
+  document.querySelectorAll("section.pad,.divider").forEach(function(el){el.style.display="none";});
+  document.getElementById("quiz").classList.remove("active");
+  if(animate===false) renderResult._animate=false;
+  renderResult(r);
   document.getElementById("result").classList.add("active");
   window.scrollTo(0,0);
 }
@@ -1096,12 +1128,13 @@ function renderResult(r){
   +'</div>'
 
   +'<div class="res-actions reveal">'
-    +'<button class="cta" onclick="shareResult(\''+p+'\','+r.pct[p]+')">'+L("Share my result","分享我的结果")+'</button>'
-    +'<button class="cta ghost" onclick="retake()">'+L("Retake","重新测试")+'</button>'
+    +'<button class="cta" onclick="shareResult()">'+L("Share my result","分享我的结果")+'</button>'
+    +'<button class="cta ghost" onclick="retake()">'+(answers.some(function(a){return a;})?L("Retake","重新测试"):L("Take the test","开始测评"))+'</button>'
     +'<button class="cta ghost" onclick="location.href=\'https://psyverse.fun/\'">'+L("Explore Psyverse","探索灵境")+'</button>'
   +'</div>'
   +'<p class="note reveal">'+L("This instrument is for self-reflection, not divination or clinical assessment. Your composition is a snapshot of how you tend to meet the world today — it can shift as you do.","本测评用于自我观照，而非占卜或临床诊断。你的配比是你「当下」如何面对世界的一帧快照——它会随你而变。")+'</p>';
 
+  window._feLast = r;  // for sharing
   var inner=document.getElementById("resultInner");
   inner.innerHTML=html;
   // stagger reveal of the major blocks
@@ -1212,21 +1245,40 @@ function hexA(hex,a){
 }
 
 /* ════════ SHARE / RETAKE ════════ */
-function shareResult(p,pct){
-  var e=EL[p];
+function shareUrl(r){
+  var c = ORDER.map(function(k){return r.counts[k];}).join("-");  // counts in canonical ORDER
+  return "https://five-elements.psyverse.fun/?c="+c;
+}
+function shareResult(){
+  var r = window._feLast; if(!r) return;
+  var p=r.ranked[0], e=EL[p], pct=r.pct[p];
   var txt = LANG==="zh"
-    ? "我的五行人格是「"+e.arche_zh+"·"+e.char+"」（"+pct+"%）。测出你的五行： "
-    : "My Five Elements type is "+e.arche_en+" ("+e.char+", "+pct+"%). Find yours: ";
-  var url="https://five-elements.psyverse.fun/";
-  if(navigator.share){ navigator.share({title:"The Five Elements", text:txt, url:url}).catch(function(){}); }
+    ? "我的五行人格是「"+e.arche_zh+"·"+e.char+"」（"+pct+"%）。测出你的五行："
+    : "My Five Elements type is "+e.arche_en+" ("+e.char+", "+pct+"%). Find yours:";
+  var url=shareUrl(r);
+  if(navigator.share){ navigator.share({title:"The Five Elements · 五行人格", text:txt, url:url}).catch(function(){}); }
   else {
     var tw="https://twitter.com/intent/tweet?text="+encodeURIComponent(txt)+"&url="+encodeURIComponent(url);
     window.open(tw,"_blank");
   }
 }
 function retake(){
+  // clear any shared-link param so refresh doesn't reopen the shared result
+  if(location.search){ try{ history.replaceState(null,"","/"); }catch(e){} }
   document.getElementById("result").classList.remove("active");
   startQuiz();
+}
+/* parse ?c=counts (canonical ORDER, ints) → counts object, or null */
+function parseSharedCounts(){
+  try{
+    var c=new URLSearchParams(location.search).get("c");
+    if(!c) return null;
+    var parts=c.split("-").map(function(x){return parseInt(x,10);});
+    if(parts.length!==5 || parts.some(function(n){return isNaN(n)||n<0||n>200;})) return null;
+    if(parts.reduce(function(a,b){return a+b;},0)===0) return null;
+    var counts={}; ORDER.forEach(function(k,i){ counts[k]=parts[i]; });
+    return counts;
+  }catch(e){ return null; }
 }
 
 /* ════════ LANG ════════ */
@@ -1238,13 +1290,55 @@ function setLang(l){
   document.getElementById("btn-zh").classList.toggle("on", l==="zh");
   // re-render dynamic views in new language (no re-animation on toggle)
   if(document.getElementById("quiz").classList.contains("active")) renderQ();
-  if(document.getElementById("result").classList.contains("active")){ renderResult._animate=false; renderResult(score()); }
+  if(document.getElementById("result").classList.contains("active")){
+    renderResult._animate=false; renderResult(window._feLast || score());
+  }
+  var chip=document.getElementById("resumeChip"); if(chip && chip._paint) chip._paint();
+}
+
+/* resume the saved result from the hero chip */
+function resumeResult(){
+  try{
+    var saved=JSON.parse(localStorage.getItem("fe_result")||"null");
+    if(saved && saved.counts){ showResult(saved.counts, true); }
+  }catch(e){}
+}
+function initResumeChip(){
+  var chip=document.getElementById("resumeChip"); if(!chip) return;
+  var saved=null;
+  try{ saved=JSON.parse(localStorage.getItem("fe_result")||"null"); }catch(e){}
+  if(!saved || !saved.counts) return;
+  var r=buildResult(saved.counts), p=r.ranked[0], e=EL[p];
+  function paint(){
+    chip.innerHTML='<span class="rc-char">'+e.char+'</span>'
+      +'<span>'+(LANG==="zh"?("查看你的上次结果 · "+e.arche_zh):("View your last result · "+e.arche_en))+'</span><span>→</span>';
+  }
+  paint(); chip._paint=paint; chip.classList.add("show");
 }
 
 /* ════════ INIT ════════ */
 buildHeroPenta();
 buildElGrid();
 buildCycleSvg();
+
+// scroll-reveal for landing sections
+(function(){
+  var els=document.querySelectorAll(".sr");
+  var reduce=window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if(reduce || !("IntersectionObserver" in window)){ els.forEach(function(el){el.classList.add("in");}); return; }
+  var io=new IntersectionObserver(function(ents){
+    ents.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {threshold:0.12, rootMargin:"0px 0px -8% 0px"});
+  els.forEach(function(el){ io.observe(el); });
+})();
+
+// shared deep-link (?c=) renders that result; else offer to resume a saved one
+(function(){
+  var shared=parseSharedCounts();
+  if(shared){ showResult(shared, true); }
+  else { initResumeChip(); }
+})();
+
 document.body.classList.add("loaded");   // trigger hero entrance choreography
 </script>
 </body>
