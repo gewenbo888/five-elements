@@ -43,7 +43,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Manrope:wght@300..800&family=Noto+Serif+SC:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Manrope:wght@300..800&family=Noto+Serif+SC:wght@300;400;600;700;900&display=swap" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..700&family=Manrope:wght@300..800&family=Noto+Serif+SC:wght@300;400;600;700;900&display=swap" /></noscript>
 
 <style>
 :root{
@@ -98,7 +99,7 @@ section{position:relative}
 #hero h1 em{font-style:italic;color:var(--gold)}
 .hero-cn{font-family:var(--sc);font-size:clamp(1.5rem,4vw,2.4rem);font-weight:300;color:var(--ink-dim);margin-top:10px;letter-spacing:0.2em}
 .hero-sub{max-width:620px;margin:28px auto 0;color:var(--ink-dim);font-size:clamp(1rem,2.2vw,1.18rem)}
-.hero-penta{margin:38px auto 6px;width:min(330px,72vw)}
+.hero-penta{margin:38px auto 6px;width:min(330px,72vw);aspect-ratio:1}  /* reserve space → no CLS when SVG injects */
 .cta{
   display:inline-flex;align-items:center;gap:10px;margin-top:30px;cursor:pointer;
   font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:0.02em;
@@ -1201,9 +1202,9 @@ function renderResult(r){
 
   +'<div class="res-actions reveal">'
     +'<button class="cta" onclick="shareResult()">'+L("Share my result","分享我的结果")+'</button>'
+    +'<button class="cta ghost" onclick="saveCard()">'+L("Save card","保存图片")+'</button>'
     +'<button class="cta ghost" onclick="copyLink()">'+L("Copy link","复制链接")+'</button>'
     +'<button class="cta ghost" onclick="retake()">'+(answers.some(function(a){return a;})?L("Retake","重新测试"):L("Take the test","开始测评"))+'</button>'
-    +'<button class="cta ghost" onclick="location.href=\'https://psyverse.fun/\'">'+L("Explore Psyverse","探索灵境")+'</button>'
   +'</div>'
   +'<p class="note reveal">'+L("This instrument is for self-reflection, not divination or clinical assessment. Your composition is a snapshot of how you tend to meet the world today — it can shift as you do.","本测评用于自我观照，而非占卜或临床诊断。你的配比是你「当下」如何面对世界的一帧快照——它会随你而变。")+'</p>';
 
@@ -1329,6 +1330,22 @@ function shareResult(){
     ? "我的五行人格是「"+e.arche_zh+"·"+e.char+"」（"+pct+"%）。测出你的五行："
     : "My Five Elements type is "+e.arche_en+" ("+e.char+", "+pct+"%). Find yours:";
   var url=shareUrl(r);
+  // try sharing the generated card image as a file (mobile / modern browsers)
+  if(navigator.canShare){
+    try{
+      var cv=buildShareCard(r);
+      cardToBlob(cv).then(function(blob){
+        var file=new File([blob], "five-elements.png", {type:"image/png"});
+        if(navigator.canShare({files:[file]})){
+          navigator.share({files:[file], title:"The Five Elements · 五行人格", text:txt+" "+url}).catch(function(){});
+        } else { shareTextUrl(txt,url); }
+      }).catch(function(){ shareTextUrl(txt,url); });
+      return;
+    }catch(e2){}
+  }
+  shareTextUrl(txt,url);
+}
+function shareTextUrl(txt,url){
   if(navigator.share){ navigator.share({title:"The Five Elements · 五行人格", text:txt, url:url}).catch(function(){}); }
   else {
     var tw="https://twitter.com/intent/tweet?text="+encodeURIComponent(txt)+"&url="+encodeURIComponent(url);
@@ -1363,6 +1380,67 @@ function legacyCopy(text){
     ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta);
     ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
   }catch(e){}
+}
+
+/* ════════ SHAREABLE RESULT CARD (1080×1080 canvas) ════════ */
+function rrect(ctx,x,y,w,h,r){
+  if(ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x,y,w,h,r); return; }
+  ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function buildShareCard(r){
+  var p=r.ranked[0], P=EL[p];
+  var cv=document.createElement("canvas"); cv.width=1080; cv.height=1080;
+  var ctx=cv.getContext("2d");
+  ctx.fillStyle="#0a0908"; ctx.fillRect(0,0,1080,1080);
+  // ambient element glow
+  var g=ctx.createRadialGradient(540,430,0,540,430,560);
+  g.addColorStop(0, hexA(P.color,0.20)); g.addColorStop(1,"rgba(10,9,8,0)");
+  ctx.fillStyle=g; ctx.fillRect(0,0,1080,1080);
+  // border frame
+  ctx.strokeStyle="rgba(201,162,75,0.28)"; ctx.lineWidth=2; rrect(ctx,40,40,1000,1000,28); ctx.stroke();
+  ctx.textAlign="center";
+  // eyebrow
+  ctx.fillStyle="#c9a24b"; ctx.font='600 26px Manrope, sans-serif';
+  ctx.fillText((LANG==="zh"?"五行人格":"WU XING · PERSONALITY"), 540, 150);
+  // big element char with glow
+  ctx.save(); ctx.shadowColor=P.color; ctx.shadowBlur=70;
+  ctx.fillStyle=P.color; ctx.font='900 300px "Noto Serif SC", serif';
+  ctx.fillText(P.char, 540, 470); ctx.restore();
+  // archetype name
+  ctx.fillStyle="#ece4d3"; ctx.font='300 76px "Fraunces", Georgia, serif';
+  ctx.fillText((LANG==="zh"?P.arche_zh:P.arche_en), 540, 612);
+  ctx.fillStyle="rgba(236,228,211,0.58)"; ctx.font='500 27px Manrope, sans-serif';
+  ctx.fillText(P.pin+"  ·  "+(LANG==="zh"?P.tag_zh.split(" — ")[0]:P.tag_en.split(" — ")[0]), 540, 660);
+  // composition bars
+  var bx=372, bw=336, baseY=726;
+  r.ranked.forEach(function(k,i){
+    var e=EL[k], by=baseY+i*50;
+    ctx.textAlign="center"; ctx.fillStyle=e.color; ctx.font='900 36px "Noto Serif SC",serif';
+    ctx.fillText(e.char, 330, by+12);
+    ctx.fillStyle="rgba(236,228,211,0.12)"; rrect(ctx,bx,by,bw,14,7); ctx.fill();
+    ctx.fillStyle=e.color; rrect(ctx,bx,by,Math.max(14,bw*r.pct[k]/100),14,7); ctx.fill();
+    ctx.textAlign="left"; ctx.fillStyle="rgba(236,228,211,0.72)"; ctx.font='600 27px Manrope,sans-serif';
+    ctx.fillText(r.pct[k]+"%", bx+bw+22, by+13);
+  });
+  // footer
+  ctx.textAlign="center"; ctx.fillStyle="#c9a24b"; ctx.font='600 30px Manrope,sans-serif';
+  ctx.fillText("five-elements.psyverse.fun", 540, 1018);
+  return cv;
+}
+function cardToBlob(cv){ return new Promise(function(res){ cv.toBlob(function(b){res(b);}, "image/png"); }); }
+function saveCard(){
+  var r=window._feLast; if(!r) return;
+  try{
+    var cv=buildShareCard(r);
+    cv.toBlob(function(blob){
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement("a"); a.href=url; a.download="five-elements-"+r.ranked[0]+".png";
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+      showToast(LANG==="zh"?"图片已保存":"Card saved");
+    }, "image/png");
+  }catch(e){ showToast(LANG==="zh"?"无法生成图片":"Could not generate card"); }
 }
 /* parse ?c=counts (canonical ORDER, ints) → counts object, or null */
 function parseSharedCounts(){
