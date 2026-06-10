@@ -318,6 +318,39 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 .resume-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px)}
 .resume-chip .rc-char{font-family:var(--sc);font-weight:900;color:var(--gold)}
 
+/* — quiz intro / expectations card — */
+#quizIntro{display:none;max-width:600px;margin:0 auto;padding:18vh 24px 0;text-align:center}
+#quizIntro.show{display:block;animation:reveal .7s cubic-bezier(.2,.75,.3,1) both}
+.qi-eyebrow{font-size:12px;letter-spacing:0.34em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:18px}
+.zh .qi-eyebrow{letter-spacing:0.22em}
+#quizIntro h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,5vw,2.9rem);line-height:1.15}
+.zh #quizIntro h2{font-family:var(--sc);font-weight:400}
+.qi-facts{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:30px 0 8px}
+.qi-fact{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:96px;
+  border:1px solid var(--border-soft);border-radius:14px;padding:16px 18px;background:var(--card)}
+.qi-fact b{font-family:var(--serif);font-size:1.6rem;font-weight:500;color:var(--gold)}
+.qi-fact span{font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint)}
+.zh .qi-fact span{letter-spacing:0.04em}
+.qi-note{color:var(--ink-dim);font-size:1.04rem;max-width:460px;margin:26px auto 34px;line-height:1.6}
+.qi-note em{color:var(--ink);font-style:normal;border-bottom:1px solid var(--gold-deep);padding-bottom:1px}
+
+/* — quiz fade-in on activate — */
+#quiz.active{animation:quizIn .5s cubic-bezier(.2,.75,.3,1) both}
+@keyframes quizIn{from{opacity:0}to{opacity:1}}
+#quiz.leaving{animation:quizOut .28s ease forwards}
+@keyframes quizOut{to{opacity:0;transform:translateY(-12px)}}
+.q-progress-wrap{transition:opacity .3s}
+.q-progress-wrap.hide{opacity:0;pointer-events:none}
+
+/* — toast — */
+#toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);
+  background:rgba(20,18,15,.96);backdrop-filter:blur(10px);border:1px solid var(--border);
+  color:var(--ink);font-family:var(--sans);font-size:14px;font-weight:600;
+  padding:12px 22px;border-radius:999px;z-index:60;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#toast .tc{font-family:var(--sc);color:var(--gold);font-weight:900;margin-right:6px}
+
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
   #hero > *,.reveal,.sr{opacity:1!important;transform:none!important}
@@ -409,13 +442,27 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 
 <!-- ════════ QUIZ ════════ -->
 <section id="quiz">
-  <div class="q-progress-wrap">
+  <div id="quizIntro">
+    <div class="qi-eyebrow"><span class="en-t">Before you begin</span><span class="zh-t">开始之前</span></div>
+    <h2><span class="en-t">Trust your first instinct</span><span class="zh-t">相信你的第一直觉</span></h2>
+    <div class="qi-facts">
+      <div class="qi-fact"><b>28</b><span><span class="en-t">questions</span><span class="zh-t">道题</span></span></div>
+      <div class="qi-fact"><b>~5</b><span><span class="en-t">minutes</span><span class="zh-t">分钟</span></span></div>
+      <div class="qi-fact"><b>5</b><span><span class="en-t">elements</span><span class="zh-t">五行</span></span></div>
+    </div>
+    <p class="qi-note">
+      <span class="en-t">There are no right or wrong answers. For each scenario, choose the option that feels <em>most like you</em> — the gut response is usually the truest.</span>
+      <span class="zh-t">没有对错之分。每道情境题，选出<em>最像你</em>的那一项——脱口而出的直觉，往往最真实。</span>
+    </p>
+    <button class="cta" id="qiStart" onclick="startQuestions()"><span class="en-t">Start</span><span class="zh-t">开始</span> →</button>
+  </div>
+  <div class="q-progress-wrap hide">
     <div class="q-progress-inner">
       <div class="q-bar"><i id="qFill"></i></div>
       <div class="q-count" id="qCount">1 / 28</div>
     </div>
   </div>
-  <div class="q-stage">
+  <div class="q-stage" style="display:none">
     <div class="q-num" id="qNum"></div>
     <div class="q-text" id="qText" aria-live="polite"></div>
     <div class="opts" id="qOpts" role="radiogroup"></div>
@@ -439,6 +486,8 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
   </p>
   <p style="margin-top:8px;opacity:0.7">© Gewenbo · Psyverse · <span class="en-t">For reflection, not divination.</span><span class="zh-t">用于自省，而非占卜。</span></p>
 </footer>
+
+<div id="toast" role="status" aria-live="polite"></div>
 
 <!-- Analytics -->
 <script src="https://analytics-dashboard-two-blue.vercel.app/tracker.js" defer></script>
@@ -921,7 +970,17 @@ function startQuiz(){
   document.getElementById("hero").style.display="none";
   document.querySelectorAll("section.pad,.divider").forEach(function(el){el.style.display="none";});
   document.getElementById("result").classList.remove("active");
-  var q=document.getElementById("quiz"); q.classList.add("active");
+  // show the intro / expectations card first
+  document.getElementById("quizIntro").classList.add("show");
+  document.querySelector(".q-progress-wrap").classList.add("hide");
+  document.querySelector(".q-stage").style.display="none";
+  var q=document.getElementById("quiz"); q.classList.remove("leaving"); q.classList.add("active");
+  window.scrollTo(0,0);
+}
+function startQuestions(){
+  document.getElementById("quizIntro").classList.remove("show");
+  document.querySelector(".q-progress-wrap").classList.remove("hide");
+  document.querySelector(".q-stage").style.display="";
   window.scrollTo(0,0);
   renderQ();
 }
@@ -976,6 +1035,10 @@ function prevQ(){ if(qIndex>0){ qDir=-1; qIndex--; renderQ(); window.scrollTo(0,
 /* keyboard: 1–5 select · ←/Backspace go back */
 document.addEventListener("keydown", function(ev){
   if(!document.getElementById("quiz").classList.contains("active")) return;
+  if(document.getElementById("quizIntro").classList.contains("show")){
+    if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); startQuestions(); }
+    return;
+  }
   if(ev.key>="1" && ev.key<="5"){
     var btns=document.querySelectorAll("#qOpts .opt"); var b=btns[(+ev.key)-1];
     if(b){ ev.preventDefault(); b.click(); }
@@ -1010,10 +1073,14 @@ function finish(){
   document.getElementById("qFill").style.width="100%";
   var r=score();
   saveResult(r);
-  renderResult(r);
-  document.getElementById("quiz").classList.remove("active");
-  document.getElementById("result").classList.add("active");
-  window.scrollTo(0,0);
+  var quiz=document.getElementById("quiz");
+  quiz.classList.add("leaving");
+  setTimeout(function(){
+    renderResult(r);
+    quiz.classList.remove("active","leaving");
+    document.getElementById("result").classList.add("active");
+    window.scrollTo(0,0);
+  }, 260);
 }
 /* render a result that wasn't just taken (shared link or saved) */
 function showResult(counts, animate){
@@ -1129,6 +1196,7 @@ function renderResult(r){
 
   +'<div class="res-actions reveal">'
     +'<button class="cta" onclick="shareResult()">'+L("Share my result","分享我的结果")+'</button>'
+    +'<button class="cta ghost" onclick="copyLink()">'+L("Copy link","复制链接")+'</button>'
     +'<button class="cta ghost" onclick="retake()">'+(answers.some(function(a){return a;})?L("Retake","重新测试"):L("Take the test","开始测评"))+'</button>'
     +'<button class="cta ghost" onclick="location.href=\'https://psyverse.fun/\'">'+L("Explore Psyverse","探索灵境")+'</button>'
   +'</div>'
@@ -1267,6 +1335,29 @@ function retake(){
   if(location.search){ try{ history.replaceState(null,"","/"); }catch(e){} }
   document.getElementById("result").classList.remove("active");
   startQuiz();
+}
+var _toastT=null;
+function showToast(msg){
+  var t=document.getElementById("toast"); if(!t) return;
+  t.innerHTML='<span class="tc">五</span>'+msg;
+  t.classList.add("show");
+  if(_toastT) clearTimeout(_toastT);
+  _toastT=setTimeout(function(){ t.classList.remove("show"); }, 2600);
+}
+function copyLink(){
+  var r=window._feLast; if(!r) return;
+  var url=shareUrl(r);
+  var done=function(){ showToast(LANG==="zh"?"链接已复制":"Link copied"); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(url).then(done, function(){ legacyCopy(url); done(); });
+  } else { legacyCopy(url); done(); }
+}
+function legacyCopy(text){
+  try{
+    var ta=document.createElement("textarea"); ta.value=text;
+    ta.style.position="fixed"; ta.style.opacity="0"; document.body.appendChild(ta);
+    ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
+  }catch(e){}
 }
 /* parse ?c=counts (canonical ORDER, ints) → counts object, or null */
 function parseSharedCounts(){
