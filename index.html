@@ -224,7 +224,9 @@ footer a{color:var(--gold)}
   .res-grid{grid-template-columns:1fr;gap:36px}
   .cycle-cards{grid-template-columns:1fr}
   .lang-toggle{top:50px}
+  .q-progress-inner{padding-right:104px}   /* clear the language toggle */
 }
+@media(pointer:coarse){ .kbd-hint{display:none} }   /* no physical keyboard */
 .fade{animation:fade .5s ease both}
 @keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 
@@ -458,8 +460,8 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
   </div>
   <div class="q-progress-wrap hide">
     <div class="q-progress-inner">
-      <div class="q-bar"><i id="qFill"></i></div>
       <div class="q-count" id="qCount">1 / 28</div>
+      <div class="q-bar"><i id="qFill"></i></div>
     </div>
   </div>
   <div class="q-stage" style="display:none">
@@ -468,7 +470,7 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
     <div class="opts" id="qOpts" role="radiogroup"></div>
     <div class="q-nav">
       <button class="q-back" id="qBack" onclick="prevQ()">← <span class="en-t">Back</span><span class="zh-t">上一题</span></button>
-      <span class="q-skip-note"><span class="en-t">Pick what feels most like you · keys 1–5 · ← back</span><span class="zh-t">选择最像你的那一项 · 数字键 1–5 · ← 返回</span></span>
+      <span class="q-skip-note"><span class="en-t">Pick what feels most like you</span><span class="zh-t">选择最像你的那一项</span><span class="kbd-hint"><span class="en-t"> · keys 1–5 · ← back</span><span class="zh-t"> · 数字键 1–5 · ← 返回</span></span></span>
     </div>
   </div>
 </section>
