@@ -312,6 +312,43 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 .sr{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.2,.75,.3,1),transform .8s cubic-bezier(.2,.75,.3,1);transition-delay:var(--sd,0ms)}
 .sr.in{opacity:1;transform:none}
 
+/* — element cards are tappable to open full archetype — */
+.el-card{cursor:pointer}
+.el-card:focus-visible{outline:2px solid var(--ec);outline-offset:3px}
+.el-more{margin-top:14px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:6px;transition:.3s}
+.zh .el-more{letter-spacing:0.06em}
+.el-card:hover .el-more{color:var(--ec)}
+
+/* — archetype detail modal — */
+.el-modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;padding:24px}
+.el-modal.show{display:flex}
+.el-modal-backdrop{position:absolute;inset:0;background:rgba(6,5,4,0.78);backdrop-filter:blur(8px);animation:fadeBg .35s ease both}
+@keyframes fadeBg{from{opacity:0}to{opacity:1}}
+.el-modal-card{position:relative;max-width:620px;width:100%;max-height:88vh;overflow-y:auto;
+  background:linear-gradient(180deg,#13110e,#0c0b09);border:1px solid var(--mc,var(--border));
+  border-radius:22px;padding:46px 40px 40px;box-shadow:0 40px 120px -30px rgba(0,0,0,.8);
+  animation:modalIn .45s cubic-bezier(.2,.75,.3,1) both}
+@keyframes modalIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+.el-modal-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:22px 22px 0 0;background:var(--mc)}
+.em-close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:1px solid var(--border-soft);
+  background:rgba(255,253,247,.03);color:var(--ink-dim);font-size:20px;cursor:pointer;transition:.25s;line-height:1}
+.em-close:hover{border-color:var(--mc);color:var(--ink);transform:rotate(90deg)}
+.em-head{text-align:center;margin-bottom:26px}
+.em-char{font-family:var(--sc);font-size:84px;font-weight:900;line-height:1;color:var(--mc);text-shadow:0 0 44px color-mix(in srgb,var(--mc) 40%,transparent)}
+.em-arche{font-family:var(--serif);font-size:2rem;font-weight:300;margin-top:6px}
+.em-pin{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);margin-top:8px}
+.em-blurb{color:var(--ink);font-size:1.02rem;margin:18px 0 6px;text-align:center}
+.em-attr{margin-top:18px}
+.em-attr .lab{font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--mc);font-weight:700;margin-bottom:5px}
+.zh .em-attr .lab{letter-spacing:0.06em}
+.em-attr p{color:var(--ink-dim);font-size:0.97rem}
+.em-attr .figs{font-family:var(--sc);color:var(--ink)}
+.em-cycle{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.em-cyc{flex:1 1 calc(50% - 5px);border:1px solid var(--border-soft);border-radius:12px;padding:12px 14px;font-size:0.88rem}
+.em-cyc .k{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.em-cyc .v{font-family:var(--sc);font-weight:700;margin-top:3px}
+@media(prefers-reduced-motion:reduce){ .el-modal-backdrop,.el-modal-card{animation:none!important} }
+
 /* — resume chip on hero — */
 .resume-chip{display:none;margin-top:18px;align-items:center;gap:9px;
   font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-dim);
@@ -491,6 +528,11 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 </footer>
 
 <div id="toast" role="status" aria-live="polite"></div>
+
+<div class="el-modal" id="elModal" role="dialog" aria-modal="true" aria-labelledby="emArche">
+  <div class="el-modal-backdrop" onclick="closeArchetype()"></div>
+  <div class="el-modal-card" id="elModalCard"></div>
+</div>
 
 <!-- Analytics -->
 <script src="https://analytics-dashboard-two-blue.vercel.app/tracker.js" defer></script>
@@ -915,13 +957,15 @@ function buildElGrid(){
   var h="";
   ORDER.forEach(function(k,i){
     var e=EL[k];
-    h+='<div class="el-card sr '+cls[k]+'" style="--sd:'+(i*70)+'ms">'
+    h+='<div class="el-card sr '+cls[k]+'" style="--sd:'+(i*70)+'ms" role="button" tabindex="0" data-el="'+k+'"'
+      +' onclick="openArchetype(\''+k+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();openArchetype(\''+k+'\');}">'
       +'<div class="el-char">'+e.char+'</div>'
       +'<div class="el-arche"><span class="en-t">'+e.arche_en+'</span><span class="zh-t sc">'+e.arche_zh+'</span></div>'
       +'<div class="el-tag">'+e.pin+'</div>'
       +'<div class="el-desc"><span class="en-t">'+e.tag_en+'. The one who '+e.world_en+'.</span>'
         +'<span class="zh-t">'+e.tag_zh+'。'+e.world_zh+'之人。</span></div>'
       +'<div class="el-fig">'+e.figs+'</div>'
+      +'<div class="el-more"><span class="en-t">Explore</span><span class="zh-t">展开</span> →</div>'
       +'</div>';
   });
   document.getElementById("elGrid").innerHTML=h;
@@ -1477,6 +1521,7 @@ function setLang(l){
     renderResult._animate=false; renderResult(window._feLast || score());
   }
   var chip=document.getElementById("resumeChip"); if(chip && chip._paint) chip._paint();
+  if(_emKey) renderArchetype(_emKey);   // re-render open archetype modal in new language
 }
 
 /* resume the saved result from the hero chip */
@@ -1498,6 +1543,54 @@ function initResumeChip(){
   }
   paint(); chip._paint=paint; chip.classList.add("show");
 }
+
+/* ════════ ARCHETYPE DETAIL MODAL ════════ */
+var _emKey=null, _emPrevFocus=null;
+function openArchetype(key){
+  if(!EL[key]) return;
+  _emKey=key; _emPrevFocus=document.activeElement;
+  renderArchetype(key);
+  document.getElementById("elModal").classList.add("show");
+  document.body.style.overflow="hidden";
+  setTimeout(function(){ var c=document.querySelector(".em-close"); if(c) try{c.focus();}catch(e){} }, 20);
+}
+function closeArchetype(){
+  document.getElementById("elModal").classList.remove("show");
+  document.body.style.overflow="";
+  _emKey=null;
+  try{ if(_emPrevFocus && _emPrevFocus.focus) _emPrevFocus.focus(); }catch(e){}
+}
+function renderArchetype(key){
+  var P=EL[key], L=function(en,zh){return LANG==="zh"?zh:en;};
+  var src=GENERATED_BY[key], disc=CONTROLLED_BY[key], child=GENERATES[key], ctrl=CONTROLS[key];
+  function cyc(k,el){ return '<div class="em-cyc"><div class="k">'+k+'</div><div class="v" style="color:'+EL[el].color+'">'+EL[el].char+' '+L(EL[el].arche_en,EL[el].arche_zh)+'</div></div>'; }
+  var html='<button class="em-close" aria-label="'+L("Close","关闭")+'" onclick="closeArchetype()">×</button>'
+    +'<div class="em-head">'
+      +'<div class="em-char">'+P.char+'</div>'
+      +'<div class="em-arche" id="emArche">'+L(P.arche_en,P.arche_zh)+'</div>'
+      +'<div class="em-pin">'+P.pin+'  ·  '+L(P.tag_en,P.tag_zh)+'</div>'
+    +'</div>'
+    +'<p class="em-blurb">'+L(P.blurb_en,P.blurb_zh)+'</p>'
+    +'<div class="em-attr"><div class="lab">'+L("Strength","优势")+'</div><p>'+L(P.strength_en,P.strength_zh)+'</p></div>'
+    +'<div class="em-attr"><div class="lab">'+L("Shadow","阴影")+'</div><p>'+L(P.shadow_en,P.shadow_zh)+'</p></div>'
+    +'<div class="em-attr"><div class="lab">'+L("At work","在工作中")+'</div><p>'+L(P.work_en,P.work_zh)+'</p></div>'
+    +'<div class="em-attr"><div class="lab">'+L("Kindred spirits","同道之人")+'</div><p class="figs">'+P.figs+'</p></div>'
+    +'<div class="em-attr"><div class="lab">'+L("Cycles","相生相克")+'</div><div class="em-cycle">'
+      +cyc(L("Fed by · source","生你 · 本源"),src)
+      +cyc(L("Checked by · discipline","克你 · 修炼"),disc)
+      +cyc(L("Feeds · child","你生 · 孩子"),child)
+      +cyc(L("Checks · controls","你克 · 所制"),ctrl)
+    +'</div></div>';
+  var card=document.getElementById("elModalCard");
+  card.style.setProperty("--mc", P.color);
+  card.innerHTML=html;
+}
+/* Escape closes; Tab is trapped to the modal's controls */
+document.addEventListener("keydown", function(ev){
+  if(!_emKey) return;
+  if(ev.key==="Escape"){ ev.preventDefault(); closeArchetype(); }
+  else if(ev.key==="Tab"){ ev.preventDefault(); var c=document.querySelector(".em-close"); if(c) c.focus(); }
+});
 
 /* ════════ INIT ════════ */
 buildHeroPenta();
