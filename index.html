@@ -259,19 +259,19 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 .el-char{transition:transform .35s cubic-bezier(.3,1.3,.5,1)}
 .el-card:hover .el-char{transform:scale(1.08) translateY(-2px)}
 
-/* — quiz question transitions — */
-.q-stage{--qx:28px}
-.q-anim .q-text{animation:qTextIn .5s cubic-bezier(.2,.75,.3,1) both}
-@keyframes qTextIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.q-out{animation:qOut .22s ease forwards}
-@keyframes qOut{to{opacity:0;transform:translateX(-26px)}}
+/* — quiz question transitions (directional slide: forward from right, back from left) — */
+.q-stage{--qx:34px}
+.q-anim{animation:qStageIn .44s cubic-bezier(.2,.75,.3,1) both}
+@keyframes qStageIn{from{opacity:0;transform:translateX(var(--qx))}to{opacity:1;transform:none}}
+.q-out{animation:qStageOut .2s ease forwards}
+@keyframes qStageOut{to{opacity:0;transform:translateX(-34px)}}
 .q-num{transition:opacity .3s}
 
 /* — options: numbered, tactile, with select sweep + check — */
 .opt{position:relative;overflow:hidden;gap:14px;
   transition:transform .2s cubic-bezier(.2,.7,.3,1),border-color .2s,background .2s,box-shadow .2s}
-.q-anim .opt{animation:optIn .45s cubic-bezier(.2,.75,.3,1) both;animation-delay:calc(.12s + var(--i,0)*.06s)}
-@keyframes optIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.q-anim .opt{animation:optFade .42s ease both;animation-delay:calc(.08s + var(--i,0)*.05s)}
+@keyframes optFade{from{opacity:0}to{opacity:1}}
 .opt:hover{transform:translateY(-2px);box-shadow:0 12px 30px -16px color-mix(in srgb,var(--oc) 70%,transparent)}
 .opt:active{transform:translateY(0) scale(.99)}
 .opt .num{flex:none;width:28px;height:28px;border-radius:9px;border:1px solid var(--border-soft);
@@ -369,8 +369,8 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 <body>
 
 <div class="lang-toggle" role="group" aria-label="Language">
-  <button id="btn-en" class="on" onclick="setLang('en')">EN</button>
-  <button id="btn-zh" onclick="setLang('zh')">中文</button>
+  <button id="btn-en" class="on" aria-pressed="true" onclick="setLang('en')">EN</button>
+  <button id="btn-zh" aria-pressed="false" onclick="setLang('zh')">中文</button>
 </div>
 
 <!-- ════════ HERO ════════ -->
@@ -466,7 +466,7 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
   </div>
   <div class="q-stage" style="display:none">
     <div class="q-num" id="qNum"></div>
-    <div class="q-text" id="qText" aria-live="polite"></div>
+    <div class="q-text" id="qText" aria-live="polite" tabindex="-1"></div>
     <div class="opts" id="qOpts" role="radiogroup"></div>
     <div class="q-nav">
       <button class="q-back" id="qBack" onclick="prevQ()">← <span class="en-t">Back</span><span class="zh-t">上一题</span></button>
@@ -476,7 +476,7 @@ body.loaded #heroPenta svg g[transform]{animation:nodePop .7s cubic-bezier(.3,1.
 </section>
 
 <!-- ════════ RESULT ════════ -->
-<section id="result"><div class="wrap" id="resultInner"></div></section>
+<section id="result" tabindex="-1"><div class="wrap" id="resultInner"></div></section>
 
 <footer>
   <p>
@@ -984,7 +984,8 @@ function startQuestions(){
   document.querySelector(".q-progress-wrap").classList.remove("hide");
   document.querySelector(".q-stage").style.display="";
   window.scrollTo(0,0);
-  renderQ();
+  qDir=1; renderQ();
+  try{ document.getElementById("qText").focus({preventScroll:true}); }catch(e){}
 }
 var qDir=1, qLocked=false;
 function renderQ(){
@@ -1009,8 +1010,8 @@ function renderQ(){
   opts.className="opts"; opts.innerHTML=h;
   qLocked=false;
   var stage=document.querySelector(".q-stage");
-  stage.style.setProperty("--qx", qDir>=0?"28px":"-28px");
-  stage.classList.remove("q-anim"); void stage.offsetWidth; stage.classList.add("q-anim");
+  stage.style.setProperty("--qx", qDir>=0?"34px":"-34px");  // forward enters from right, back from left
+  stage.classList.remove("q-anim","q-out"); void stage.offsetWidth; stage.classList.add("q-anim");
 }
 function pick(code){
   if(qLocked) return; qLocked=true;
@@ -1080,8 +1081,10 @@ function finish(){
   setTimeout(function(){
     renderResult(r);
     quiz.classList.remove("active","leaving");
-    document.getElementById("result").classList.add("active");
+    var res=document.getElementById("result");
+    res.classList.add("active");
     window.scrollTo(0,0);
+    try{ res.focus({preventScroll:true}); }catch(e){}
   }, 260);
 }
 /* render a result that wasn't just taken (shared link or saved) */
@@ -1157,7 +1160,7 @@ function renderResult(r){
 
   +'<div class="res-grid reveal" style="--pc:'+P.color+'">'
     +'<div class="radar-box">'
-      +'<canvas class="radar-canvas" id="radar" width="600" height="600"></canvas>'
+      +'<canvas class="radar-canvas" id="radar" width="600" height="600" role="img" aria-label="'+L("Radar chart of your five-element composition; strongest is "+P.arche_en,"五行配比雷达图；最强为"+P.arche_zh)+'"></canvas>'
       +'<div class="comp-list">'+compRows+'</div>'
     +'</div>'
     +'<div class="res-detail" style="--pc:'+P.color+'">'
@@ -1381,6 +1384,8 @@ function setLang(l){
   document.documentElement.lang = l==="zh"?"zh-CN":"en";
   document.getElementById("btn-en").classList.toggle("on", l==="en");
   document.getElementById("btn-zh").classList.toggle("on", l==="zh");
+  document.getElementById("btn-en").setAttribute("aria-pressed", l==="en"?"true":"false");
+  document.getElementById("btn-zh").setAttribute("aria-pressed", l==="zh"?"true":"false");
   // re-render dynamic views in new language (no re-animation on toggle)
   if(document.getElementById("quiz").classList.contains("active")) renderQ();
   if(document.getElementById("result").classList.contains("active")){
