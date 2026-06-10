@@ -1213,16 +1213,22 @@ function renderResult(r){
   inner.innerHTML=html;
   // stagger reveal of the major blocks
   inner.querySelectorAll(".reveal").forEach(function(el,i){ el.style.setProperty("--d",(i*85)+"ms"); });
-  var animate = renderResult._animate !== false;
-  if(animate){ inner.classList.remove("play"); void inner.offsetWidth; inner.classList.add("play"); }
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  var doAnim = renderResult._animate !== false && !reduce;   // respect reduced-motion
+  if(doAnim){ inner.classList.remove("play"); void inner.offsetWidth; inner.classList.add("play"); }
   else { inner.classList.remove("play"); }
   // composition bars + count-up (timed to land with the grid reveal)
-  var barDelay = animate ? 340 : 0;
+  var barDelay = doAnim ? 340 : 0;
   setTimeout(function(){
     inner.querySelectorAll(".comp-bar i").forEach(function(b){ b.style.width=b.getAttribute("data-w")+"%"; });
-    countUp(animate ? 750 : 0);
+    countUp(doAnim ? 750 : 0);   // instant under reduced-motion (no number ticking)
   }, barDelay);
-  drawRadar(r, animate);
+  drawRadar(r, doAnim);
+  // update document title to the result archetype (nice for shared-link tabs/previews)
+  try{
+    var Pr=EL[r.ranked[0]];
+    document.title = (LANG==="zh"? (Pr.arche_zh+" · "+Pr.char) : (Pr.arche_en+" · "+Pr.char)) + " | "+(LANG==="zh"?"五行人格":"The Five Elements");
+  }catch(e){}
   renderResult._animate = true; // reset default for next call
 }
 function countUp(dur){
@@ -1355,6 +1361,7 @@ function shareTextUrl(txt,url){
 function retake(){
   // clear any shared-link param so refresh doesn't reopen the shared result
   if(location.search){ try{ history.replaceState(null,"","/"); }catch(e){} }
+  document.title = "The Five Elements · 五行人格 | Psyverse";
   document.getElementById("result").classList.remove("active");
   startQuiz();
 }
